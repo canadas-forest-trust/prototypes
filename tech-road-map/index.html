@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tech Road Map — Canada’s Forest Trust</title>
+  <meta name="description" content="What’s on the Tech Road Map slide, in plain language." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Red+Hat+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #faf8f2;
+      --paper-2: #f7f5ef;
+      --rule: #e2ddd0;
+      --ink: #17150f;
+      --ink-2: #3a352b;
+      --ink-3: #5c574b;
+      --started: #6fbe93;
+      --started-deep: #2e8b57;
+      --built: #1b6a3e;
+      --raise: #12351f;
+      --gold: #b46a3a;
+      --white: #fff;
+      --display: "Red Hat Display", ui-sans-serif, system-ui, sans-serif;
+      --body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      --max: 72rem;
+      --gutter: clamp(1.25rem, 4vw, 2.5rem);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .band, .item { animation: none; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--built); }
+    a:hover { color: var(--raise); }
+    a:focus-visible {
+      outline: 2px solid var(--built);
+      outline-offset: 3px;
+    }
+
+    .skip {
+      position: absolute;
+      left: -999px;
+      top: 0;
+    }
+    .skip:focus {
+      left: var(--gutter);
+      top: 0.5rem;
+      z-index: 20;
+      background: var(--white);
+      padding: 0.5rem 0.75rem;
+    }
+
+    .wrap { width: min(var(--max), 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+    header.top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 1.25rem 0 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    header.top p {
+      margin: 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 500;
+    }
+
+    .hero { padding: 3.5rem 0 2.5rem; }
+    .hero h1 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2.4rem, 6vw, 4.75rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin: 0 0 1.25rem;
+    }
+    .hero .lede {
+      max-width: 40rem;
+      font-size: 1.2rem;
+      color: var(--ink-2);
+      margin: 0;
+    }
+
+    .nav-bands {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--paper);
+      padding: 0.75rem 0 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .bands {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1.4fr auto;
+      gap: 0;
+      min-height: 3.25rem;
+    }
+    .bands a {
+      display: flex;
+      align-items: center;
+      padding: 0.7rem 0.9rem;
+      text-decoration: none;
+      color: var(--white);
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 0.68rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .bands a:focus-visible { outline-color: var(--gold); }
+    .bands .b-started { background: var(--started); color: var(--raise); }
+    .bands .b-built { background: var(--built); }
+    .bands .b-raise { background: var(--raise); }
+    .bands .b-future {
+      background: transparent;
+      color: var(--ink-2);
+      padding-right: 0;
+      min-width: 6.5rem;
+    }
+    .bands .arrow {
+      width: 2.75rem;
+      background: var(--raise);
+      clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 50%, calc(100% - 14px) 100%, 0 100%);
+    }
+    body[data-phase="started"] .b-started { box-shadow: inset 0 -3px 0 var(--gold); }
+    body[data-phase="built"] .b-built { box-shadow: inset 0 -3px 0 var(--gold); }
+    body[data-phase="raise"] .b-raise { box-shadow: inset 0 -3px 0 var(--gold); }
+    body[data-phase="future"] .b-future { box-shadow: inset 0 -3px 0 var(--gold); }
+
+    section { padding: 3.5rem 0 1rem; scroll-margin-top: 4.5rem; }
+    section h2 {
+      font-family: var(--display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      letter-spacing: -0.02em;
+      margin: 0 0 0.5rem;
+    }
+    .intro { max-width: 40rem; color: var(--ink-2); margin: 0 0 2rem; }
+
+    .items { display: grid; gap: 1.25rem; }
+    .item {
+      display: grid;
+      grid-template-columns: minmax(12rem, 0.42fr) 1fr;
+      gap: 1.25rem 2rem;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--rule);
+    }
+    .item h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.35;
+    }
+    .item p { margin: 0; color: var(--ink-2); }
+    .item .slide-line {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    #raise .item { border-top-color: #cfc8b8; }
+
+    .money {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 0 0 2.5rem;
+    }
+    .money div {
+      background: var(--raise);
+      color: var(--paper-2);
+      padding: 1.1rem 1.15rem;
+    }
+    .money strong {
+      display: block;
+      font-family: var(--display);
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+    .money span { font-size: 0.92rem; opacity: 0.88; }
+
+    footer {
+      margin-top: 3rem;
+      padding: 2rem 0 3rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.85rem;
+      color: var(--ink-3);
+    }
+    footer p { margin: 0 0 0.4rem; }
+
+    @media (max-width: 800px) {
+      .bands { grid-template-columns: 1fr 1fr; }
+      .bands .arrow, .bands .b-future { display: none; }
+      .item, .money { grid-template-columns: 1fr; }
+      .item { gap: 0.4rem; }
+    }
+
+    @media print {
+      .nav-bands { position: static; }
+      .bands a { color: var(--ink) !important; background: var(--paper-2) !important; border: 1px solid var(--rule); }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body data-phase="started">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="wrap">
+    <header class="top">
+      <p>Canada’s Forest Trust</p>
+      <p>Internal · September 2026</p>
+    </header>
+  </div>
+
+  <main id="main">
+    <div class="wrap hero">
+      <h1>Tech Road Map</h1>
+      <p class="lede">
+        Notes behind the investor-deck Tech Road Map slide. What’s built, what’s next, and what the raise is for.
+      </p>
+    </div>
+
+    <nav class="nav-bands" aria-label="Road map phases">
+      <div class="wrap bands">
+        <a class="b-started" href="#started">Where we started</a>
+        <a class="b-built" href="#built">What we’ve developed</a>
+        <a class="b-raise" href="#raise">What this raise unlocks</a>
+        <span class="arrow" aria-hidden="true"></span>
+        <a class="b-future" href="#future">Future state</a>
+      </div>
+    </nav>
+
+    <div class="wrap">
+      <section id="started">
+        <h2>Where we started</h2>
+        <p class="intro">
+          A single Hub page with forest stats. Onboarding was manual, ops ran through Zoho, contracts lived in Google Docs.
+        </p>
+        <div class="items">
+          <article class="item">
+            <h3 class="slide-line">Single-page Smart Forest™ Hub with basic forest data</h3>
+            <p>Partners could see trees and a forest story. Staff still did most of the work around it by hand.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Manual onboarding, Zoho-backed ops, Google Doc contracts</h3>
+            <p>Every new partner meant time in Zoho, email, and docs.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="built">
+        <h2>What we’ve developed</h2>
+        <p class="intro">
+          One partner path from lead to Hub to campaign, and one staff platform instead of Zoho CRM.
+          Built and running on preview. Production is still the legacy stack until we cut over.
+        </p>
+        <div class="items">
+          <article class="item">
+            <h3 class="slide-line">Branded partner Hub: EN/FR, Learning Centre, marketing assets, multi-forest, LGG badges</h3>
+            <p>Logo and colour, English and French, Learning Centre, marketing assets, multiple forests, LGG badges when the program uses them.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Retail stack: Shopify app, contribution API, live tree counters, RESTOR planting data</h3>
+            <p>Merchants add trees at checkout. The API attributes them, live counters show them on the partner’s site, planting is tied to RESTOR. Shopify 2.0 is still ahead of us.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Passwordless login and self-serve partner onboarding</h3>
+            <p>Staff send an invite. The partner signs in with a one-time code, sets branding, and lands in their Hub.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Public campaign pages with checkout (partner fundraising)</h3>
+            <p>Partners can publish a campaign page and take contributions. Checkout works on preview (Stripe test). Live payments and payouts are still to do.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">In-house staff platform: CRM, tasks, outreach, programs, agreements + e-sign</h3>
+            <p>Pipeline, tasks, outreach, programs, and in-house agreement signing in one admin. This is how we replace Zoho CRM.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">One Postgres-based platform for Hub, billing, and CRM — ready to go live</h3>
+            <p>Hub, contributions, billing, and CRM on one Postgres database. No Zoho in the new code. Built on preview — not on production DNS yet.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="raise">
+        <h2>What this raise unlocks</h2>
+        <p class="intro">
+          Take the rebuilt platform to production, then use Hub for revenue — campaigns, retail, certificates — without adding ops people in lockstep with partners.
+        </p>
+        <div class="money">
+          <div>
+            <strong>Take it live</strong>
+            <span>Cut over to the new stack and get off Zoho.</span>
+          </div>
+          <div>
+            <strong>Sell through Hub</strong>
+            <span>Campaigns, retail, certificates — partner audiences become attributed trees.</span>
+          </div>
+          <div>
+            <strong>Scale the team’s output</strong>
+            <span>Onboarding, nurture, and fulfillment in the product so growth isn’t more CX headcount.</span>
+          </div>
+        </div>
+        <div class="items">
+          <article class="item">
+            <h3 class="slide-line">Take the rebuilt platform live at scale and fully exit Zoho</h3>
+            <p>Ship the new stack to production. One system for staff and partners. Off Zoho for ops data and for CRM.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Shopify 2.0 plus apps for other major retail platforms</h3>
+            <p>Current Shopify app is live. 2.0 is a better merchant experience and a path onto other platforms without a custom build each time.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Scale partner campaigns — live payments, payouts, more partners</h3>
+            <p>Off test checkout. Live payments, partner payouts, and the ops to run more than a handful of campaigns.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Certificates, sales reports, and automated tree fulfillment</h3>
+            <p>Monthly loop: partners report sales, trees get fulfilled, certificates go out — without the spreadsheet pile.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Forest Impact Reporting and Hub analytics for partner boards</h3>
+            <p>Partners already ask for numbers they can take to their board. Self-serve reporting is how we stop answering that by email.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">CRM × Hub × email automations that grow CLV without linear headcount</h3>
+            <p>Onboard, nurture, and renew in the product we already have — not another tool to log into.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="future">
+        <h2>Future state</h2>
+        <p class="intro">
+          After cutover: signed deals write into the account, partners edit their own assets, and education can certify.
+        </p>
+        <div class="items">
+          <article class="item">
+            <h3 class="slide-line">Provision accounts from signed agreements</h3>
+            <p>E-sign is built. Next is Apply: a signed agreement writes terms, dates, and Hub defaults so CX isn’t re-keying the deal.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Partner-editable marketing assets</h3>
+            <p>The library is there. An editor in Hub means partners make on-brand assets without a design ticket.</p>
+          </article>
+          <article class="item">
+            <h3 class="slide-line">Certification-based education modules</h3>
+            <p>Learning Centre is live. Certification modules would let partners assign a program, not just browse content.</p>
+          </article>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div class="wrap">
+    <footer>
+      <p>Backup for the Tech Road Map slide in the August 2026 investor deck.</p>
+      <p>Canada’s Forest Trust · September 2026</p>
+    </footer>
+  </div>
+
+  <script>
+    const sections = ["started", "built", "raise", "future"]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible && visible.target.id) {
+          document.body.dataset.phase = visible.target.id;
+        }
+      },
+      { rootMargin: "-20% 0px -55% 0px", threshold: [0.15, 0.4] }
+    );
+    sections.forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>

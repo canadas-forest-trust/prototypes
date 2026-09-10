@@ -8,3 +8,4 @@ Each POC lives in its own folder and is reachable at:
 ## POCs
 
 - [campaign-customizer](https://canadas-forest-trust.github.io/prototypes/campaign-customizer/) — Campaign Page Customizer
+- [tech-road-map](https://canadas-forest-trust.github.io/prototypes/tech-road-map/) — Tech Road Map notes (investor deck, Sept 2026)
