@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>body{margin:0} a{color:#1B3330;text-decoration:none} a:hover{color:#A8321E}</style>
+</helmet>
+<div data-screen-label="Certificate" style="position:relative;width:1056px;height:816px;overflow:hidden;background:#F6F1EA;color:#1B3330;font-family:'Instrument Serif',Georgia,serif;display:flex;flex-direction:column;box-sizing:border-box">
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><filter id="cf-sage" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"></feColorMatrix><feComponentTransfer><feFuncR type="table" tableValues=".106 .38 .72 .965"></feFuncR><feFuncG type="table" tableValues=".2 .45 .66 .945"></feFuncG><feFuncB type="table" tableValues=".188 .42 .58 .918"></feFuncB></feComponentTransfer></filter><filter id="cf-gold" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"></feColorMatrix><feComponentTransfer><feFuncR type="table" tableValues=".106 .541 .78 1 1"></feFuncR><feFuncG type="table" tableValues=".2 .416 .66 1 1"></feFuncG><feFuncB type="table" tableValues=".188 .18 .45 1 1"></feFuncB></feComponentTransfer></filter></defs></svg>
+
+  <img src="assets/paper-texture.jpg" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;mix-blend-mode:multiply;opacity:0.55;pointer-events:none">
+
+  <sc-if value="{{ isA }}" hint-placeholder-val="{{ true }}">
+    <div style="position:relative;flex:1;display:flex;flex-direction:column">
+
+      <sc-if value="{{ hasArtA }}" hint-placeholder-val="">
+        <div style="position:absolute;right:{{ artA.right }};top:{{ artA.top }};width:{{ artA.w }};height:{{ artA.h }};transform:rotate({{ artA.rot }}deg);mix-blend-mode:multiply;-webkit-mask-image:{{ artA.mask }};mask-image:{{ artA.mask }};pointer-events:none">
+          <img src="{{ artA.src }}" alt="" style="display:block;width:100%;height:100%;object-fit:contain;filter:{{ artA.filter }};opacity:{{ artA.op }};transform:{{ artA.flip }}">
+        </div>
+      </sc-if>
+      <sc-if value="{{ needArtA }}" hint-placeholder-val="">
+        <div style="position:absolute;right:0.6in;top:0.45in;width:2.7in;height:1.7in;border:1.5px dashed #1B333055;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase">
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.26em;color:#1B3330">Image needed</div>
+          <div style="font-size:8.5px;font-weight:500;letter-spacing:0.18em;color:#5E6E64">{{ needArtA }}</div>
+        </div>
+      </sc-if>
+
+      <div style="position:relative;display:flex;align-items:center;padding:0.5in 0.75in 0;gap:22px">
+        <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.5in;width:auto;display:block">
+        <div style="width:1px;height:0.42in;background:#1B333040"></div>
+        <div style="display:flex;flex-direction:column;gap:5px;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase">
+          <div style="font-size:9px;font-weight:700;letter-spacing:0.26em;color:#1B3330">Smart Forest Program</div>
+          <div style="font-size:8.5px;font-weight:500;letter-spacing:0.26em;color:{{ label }}">Ottawa, Ontario</div>
+        </div>
+      </div>
+
+      <div style="position:relative;flex:1;display:grid;grid-template-columns:auto 1.5px minmax(0,1fr);gap:0.55in;align-items:center;padding:0.2in 0.75in">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;min-width:2.6in">
+          <div style="font-size:{{ countSize }}px;line-height:0.86;letter-spacing:0.02em;color:{{ accent }}">{{ countText }}</div>
+          <div style="font-size:40px;font-style:italic;line-height:1;margin-top:10px">{{ treeNoun }} planted</div>
+        </div>
+        <div style="align-self:stretch;background:#1B3330;opacity:0.18;margin:0.3in 0"></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start;text-align:left">
+          <div style="display:flex;align-items:center;gap:14px;font-family:Archivo,Helvetica,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.38em;text-transform:uppercase;color:#1B3330;margin-bottom:22px">
+            <div style="width:36px;height:1.5px;background:#1B3330"></div>
+            <div>{{ title }}</div>
+          </div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:{{ label }}">{{ lead }}</div>
+          <div style="font-size:76px;line-height:1;letter-spacing:-0.02em;margin-top:12px;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:22px;line-height:1.45;font-style:italic;color:{{ msgColor }};max-width:4.6in;margin-top:18px;text-wrap:pretty">{{ quotedMessage }}</div>
+          <div style="width:100%;max-width:5.2in;display:grid;grid-template-columns:1fr 1fr;gap:0.45in;margin-top:34px">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;font-size:8.5px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:{{ label }}">{{ fromLabel }}</div>
+              <div style="font-size:26px;line-height:1.15;padding-bottom:8px;border-bottom:1.5px solid #1B3330">{{ giftedBy }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;font-size:8.5px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:{{ label }}">{{ dateLabel }}</div>
+              <div style="font-size:26px;line-height:1.15;padding-bottom:8px;border-bottom:1.5px solid #1B3330">{{ dateGifted }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isB }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:flex;padding:0.3in 0.3in 0.22in">
+      <div style="flex:1;display:flex;border:1px solid {{ accent }};padding:4px">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:0.5px solid {{ accent }}88;padding:0.25in 0.6in 0.22in">
+
+          <sc-if value="{{ hasArtB }}" hint-placeholder-val="">
+            <div style="width:{{ artB.w }};height:{{ artB.h }};mix-blend-mode:multiply;-webkit-mask-image:{{ artB.mask }};mask-image:{{ artB.mask }}">
+              <img src="{{ artB.src }}" alt="" style="display:block;width:100%;height:100%;object-fit:contain;filter:{{ artB.filter }};opacity:{{ artB.op }}">
+            </div>
+          </sc-if>
+          <sc-if value="{{ needArtB }}" hint-placeholder-val="">
+            <div style="width:1.2in;height:1.2in;border-radius:50%;border:1.5px dashed #1B333055;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:0 0.12in;box-sizing:border-box;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase">
+              <div style="font-size:7.5px;font-weight:700;letter-spacing:0.22em;color:#1B3330">Image needed</div>
+              <div style="font-size:7px;font-weight:500;letter-spacing:0.14em;line-height:1.5;color:#5E6E64">{{ needArtB }}</div>
+            </div>
+          </sc-if>
+
+          <div style="display:flex;align-items:center;gap:14px;font-family:Archivo,Helvetica,sans-serif;font-size:10px;font-weight:600;letter-spacing:0.38em;text-transform:uppercase;color:#1B3330;margin-top:16px">
+            <div style="width:36px;height:1px;background:{{ accent }}"></div>
+            <div style="padding-left:0.38em">{{ title }}</div>
+            <div style="width:36px;height:1px;background:{{ accent }}"></div>
+          </div>
+
+          <div style="display:flex;align-items:baseline;justify-content:center;gap:14px;margin-top:14px">
+            <div style="font-size:76px;line-height:0.9;letter-spacing:0.02em;color:{{ accent }}">{{ countText }}</div>
+            <div style="font-size:32px;font-style:italic;line-height:1">{{ treeNoun }} planted</div>
+          </div>
+
+          <div style="font-family:Archivo,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:{{ label }};margin-top:16px;padding-left:0.3em">{{ lead }}</div>
+          <div style="font-size:66px;line-height:1.02;letter-spacing:-0.015em;margin-top:8px;max-width:7.5in;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:20px;line-height:1.45;font-style:italic;color:{{ msgColor }};max-width:5.6in;margin-top:12px;text-wrap:pretty">{{ quotedMessage }}</div>
+
+          <div style="width:100%;max-width:6.2in;display:grid;grid-template-columns:1fr 1fr;gap:0.5in;margin-top:24px;text-align:left">
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;font-size:8.5px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:{{ label }}">{{ fromLabel }}</div>
+              <div style="font-size:24px;line-height:1.15;padding-bottom:7px;border-bottom:1px solid #1B3330">{{ giftedBy }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;font-size:8.5px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:{{ label }}">{{ dateLabel }}</div>
+              <div style="font-size:24px;line-height:1.15;padding-bottom:7px;border-bottom:1px solid #1B3330">{{ dateGifted }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isC }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:flex;background:#1B3330;color:#F6F1EA;padding:0.3in 0.3in 0">
+      <div style="flex:1;display:flex;border:1px solid #C9A96A;border-bottom:none;padding:4px 4px 0">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:0.5px solid #C9A96A66;border-bottom:none;padding:0.2in 0.8in 0.1in">
+          <div style="display:flex;align-items:center;gap:16px">
+            <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.36in;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9">
+            <div style="width:1px;height:0.3in;background:#C9A96A80"></div>
+            <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:600;letter-spacing:0.3em;color:#C9A96A">Smart Forest Program · Ottawa</div>
+          </div>
+          <img src="{{ artB.src }}" alt="" style="display:block;width:2in;height:1.05in;object-fit:contain;margin-top:20px;filter:brightness(0) invert(1) sepia(0.55) saturate(1.5) brightness(0.86)">
+          <div style="display:flex;align-items:center;gap:16px;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:10px;font-weight:600;letter-spacing:0.4em;color:#C9A96A;margin-top:16px">
+            <div style="width:40px;height:1px;background:#C9A96A"></div>
+            <div style="padding-left:0.4em">{{ title }}</div>
+            <div style="width:40px;height:1px;background:#C9A96A"></div>
+          </div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:600;letter-spacing:0.3em;color:#A9B5B0;margin-top:20px;padding-left:0.3em">{{ lead }}</div>
+          <div style="font-size:80px;line-height:1;letter-spacing:-0.015em;margin-top:8px;max-width:8in;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:28px;font-style:italic;line-height:1.2;color:#C9A96A;margin-top:10px">{{ countLine }}</div>
+          <div style="font-size:19px;font-style:italic;line-height:1.45;color:#C9D1CC;max-width:5.4in;margin-top:10px;text-wrap:pretty">{{ quotedMessage }}</div>
+          <div style="width:100%;max-width:6in;display:grid;grid-template-columns:1fr 1fr;gap:0.5in;margin-top:22px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="font-size:23px;line-height:1.15;padding:0 0.1in 7px;border-bottom:1px solid #C9A96A99;align-self:stretch">{{ giftedBy }}</div>
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:600;letter-spacing:0.28em;color:#C9A96A">{{ fromLabel }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+              <div style="font-size:23px;line-height:1.15;padding:0 0.1in 7px;border-bottom:1px solid #C9A96A99;align-self:stretch">{{ dateGifted }}</div>
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:600;letter-spacing:0.28em;color:#C9A96A">{{ dateLabel }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isD }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr)">
+      <div style="background:#1B3330;color:#F6F1EA;display:flex;flex-direction:column;justify-content:space-between;padding:0.5in 0.55in 0.32in 0.75in;gap:0.2in">
+        <div style="display:flex;align-items:center;gap:16px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.42in;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.9">
+          <div style="width:1px;height:0.34in;background:#C9A96A80"></div>
+          <div style="display:flex;flex-direction:column;gap:4px;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;">
+            <div style="font-size:8.5px;font-weight:700;letter-spacing:0.26em;color:#F6F1EA">Smart Forest Program</div>
+            <div style="font-size:8px;font-weight:500;letter-spacing:0.26em;color:#C9A96A">Ottawa, Ontario</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-start">
+          <div style="display:flex;align-items:center;gap:14px;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:10px;font-weight:600;letter-spacing:0.38em;color:#C9A96A">
+            <div style="width:36px;height:1px;background:#C9A96A"></div>
+            <div>{{ title }}</div>
+          </div>
+          <div style="display:flex;align-items:baseline;gap:16px;margin-top:14px">
+            <div style="font-size:{{ countSizeD }}px;line-height:0.9;letter-spacing:0.02em;color:#C9A96A">{{ countText }}</div>
+            <div style="font-size:30px;font-style:italic;line-height:1">{{ treeNoun }} planted</div>
+          </div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:600;letter-spacing:0.3em;color:#C9A96A;margin-top:10px">In the {{ forestName }}</div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:600;letter-spacing:0.3em;color:#A9B5B0;margin-top:18px">{{ lead }}</div>
+          <div style="font-size:60px;line-height:1.02;letter-spacing:-0.015em;margin-top:8px;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:19px;font-style:italic;line-height:1.45;color:#C9D1CC;max-width:4.4in;margin-top:12px;text-wrap:pretty">{{ quotedMessage }}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.35in">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:600;letter-spacing:0.28em;color:#C9A96A">{{ fromLabel }}</div>
+            <div style="font-size:22px;line-height:1.15;padding-bottom:7px;border-bottom:1px solid #C9A96A99">{{ giftedBy }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:600;letter-spacing:0.28em;color:#C9A96A">{{ dateLabel }}</div>
+            <div style="font-size:22px;line-height:1.15;padding-bottom:7px;border-bottom:1px solid #C9A96A99">{{ dateGifted }}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:1px solid #C9A96A55;padding-top:0.16in">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:600;letter-spacing:0.24em;color:#A9B5B0">In partnership with</div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.26in;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.92">
+              <div style="width:1px;height:0.22in;background:#F6F1EA40"></div>
+              <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.3in;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.92">
+            </div>
+          </div>
+          <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.2em;color:#E3D6C6;text-align:right;line-height:1.7">Scan to visit<br>your Smart Forest</div>
+              <div style="background:#FFFFFF;padding:4px;border-radius:4px">
+                <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.58in;height:0.58in;display:block">
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      <div style="position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:0.55in 0.45in 0.45in">
+        <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:600;letter-spacing:0.32em;color:{{ label }}">{{ plateNo }}</div>
+        <img src="{{ artA.src }}" alt="" style="display:block;width:100%;max-height:5.6in;object-fit:contain;mix-blend-mode:multiply;margin:auto 0">
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isE }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:grid;grid-template-columns:minmax(0,1fr) 3.7in;gap:0.45in;padding:0.5in 0.55in 0.45in 0.6in">
+      <div style="position:relative;display:flex;flex-direction:column;justify-content:space-between;border-right:0.5px solid #1B333033;padding-right:0.45in">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:8px;letter-spacing:0.14em;color:#5E6E64">
+          <div>{{ plateNo }}</div>
+          <div>{{ certNo }}</div>
+        </div>
+        <div style="flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:0.2in 0">
+          <img src="{{ artA.src }}" alt="" style="display:block;max-width:100%;max-height:5.4in;object-fit:contain;mix-blend-mode:multiply">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:space-between;gap:0.2in">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.44in;width:auto;display:block;align-self:flex-start">
+          <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:8px;letter-spacing:0.16em;color:#1B3330">Smart Forest Program — Living Registry</div>
+        </div>
+        <div style="display:flex;flex-direction:column;border-top:1.5px solid #1B3330;border-bottom:1.5px solid #1B3330">
+          <div style="padding:12px 0 12px;border-bottom:0.5px solid #1B333040;display:flex;flex-direction:column;gap:6px">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:{{ label }}">{{ title }} · {{ lead }}</div>
+            <div style="font-size:44px;line-height:1.02;letter-spacing:-0.015em;text-wrap:balance">{{ recipientName }}</div>
+            <div style="font-size:16px;font-style:italic;line-height:1.4;color:{{ msgColor }};text-wrap:pretty">{{ quotedMessage }}</div>
+          </div>
+            <div style="display:grid;grid-template-columns:0.95in minmax(0,1fr);gap:12px;align-items:baseline;padding:9px 0;border-bottom:0.5px solid #1B333040">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">Trees planted</div>
+              <div style="font-size:30px;line-height:1;color:{{ accent }}">{{ countText }}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.95in minmax(0,1fr);gap:12px;align-items:baseline;padding:9px 0;border-bottom:0.5px solid #1B333040">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">{{ fromLabel }}</div>
+              <div style="font-size:17px;line-height:1.2">{{ giftedBy }}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.95in minmax(0,1fr);gap:12px;align-items:baseline;padding:9px 0;border-bottom:0.5px solid #1B333040">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">{{ dateLabel }}</div>
+              <div style="font-size:17px;line-height:1.2">{{ dateGifted }}</div>
+            </div>
+            <div style="display:grid;grid-template-columns:0.95in minmax(0,1fr);gap:12px;align-items:baseline;padding:9px 0;">
+              <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">Planted in</div>
+              <div style="font-size:17px;line-height:1.2">{{ forestName }}</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7px;letter-spacing:0.12em;color:#5E6E64">In partnership with</div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.26in;width:auto;display:block;">
+              <div style="width:1px;height:0.22in;background:#1B333033"></div>
+              <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.3in;width:auto;display:block;">
+            </div>
+          </div>
+          <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.2em;color:#5E6E64;text-align:right;line-height:1.7">Scan to visit<br>your Smart Forest</div>
+              <div style="background:#FFFFFF;padding:4px;border:0.5px solid #1B333040">
+                <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.58in;height:0.58in;display:block">
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isF }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:0.5in 0.6in 0.4in">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:20px;padding-bottom:12px;border-bottom:0.5px solid #1B333040">
+        <div style="display:flex;align-items:center;gap:18px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.42in;width:auto;display:block">
+          <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:8px;letter-spacing:0.16em;color:#1B3330">Smart Forest Program — Living Registry</div>
+        </div>
+        <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:8px;letter-spacing:0.14em;color:#5E6E64">{{ certNo }}</div>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 2.9in;gap:0.5in;align-items:end">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:8px;font-weight:500;letter-spacing:0.14em;color:{{ label }}">{{ title }} — {{ lead }}</div>
+          <div style="font-size:104px;line-height:0.92;letter-spacing:-0.03em;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:21px;font-style:italic;line-height:1.4;color:{{ msgColor }};max-width:5in;margin-top:6px;text-wrap:pretty">{{ quotedMessage }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+          <img src="{{ artB.src }}" alt="" style="display:block;width:2.6in;height:2.1in;object-fit:contain;mix-blend-mode:multiply">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0.22in">
+        <div style="display:grid;grid-template-columns:1.1in 1.4fr 1.2fr 1.6fr;border-top:1.5px solid #1B3330;border-bottom:1.5px solid #1B3330">
+          <div style="display:flex;flex-direction:column;gap:8px;padding:12px 16px 14px;padding-left:0;">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">Trees</div>
+            <div style="font-size:34px;line-height:0.9;color:{{ accent }}">{{ countText }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;padding:12px 16px 14px;border-left:0.5px solid #1B333040;">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">{{ fromLabel }}</div>
+            <div style="font-size:18px;line-height:1.2">{{ giftedBy }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;padding:12px 16px 14px;border-left:0.5px solid #1B333040;">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">{{ dateLabel }}</div>
+            <div style="font-size:18px;line-height:1.2">{{ dateGifted }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;padding:12px 16px 14px;border-left:0.5px solid #1B333040;">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7.5px;font-weight:500;letter-spacing:0.12em;color:#5E6E64">Planted in</div>
+            <div style="font-size:18px;line-height:1.2">{{ forestName }}</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px">
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="font-family:'IBM Plex Mono',ui-monospace,monospace;text-transform:uppercase;font-size:7px;letter-spacing:0.12em;color:#5E6E64">In partnership with</div>
+            <div style="display:flex;align-items:center;gap:14px">
+              <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.26in;width:auto;display:block;">
+              <div style="width:1px;height:0.22in;background:#1B333033"></div>
+              <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.3in;width:auto;display:block;">
+            </div>
+          </div>
+          <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:10px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.2em;color:#5E6E64;text-align:right;line-height:1.7">Scan to visit<br>your Smart Forest</div>
+              <div style="background:#FFFFFF;padding:4px;border:0.5px solid #1B333040">
+                <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.58in;height:0.58in;display:block">
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isG }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;overflow:hidden;background:#1B3330">
+      <img src="{{ photo }}" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:{{ photoPos }}">
+      <div style="position:absolute;left:0;right:0;bottom:0;height:62%;background:linear-gradient(to top, rgba(14,28,26,0.82) 0%, rgba(14,28,26,0.5) 45%, rgba(14,28,26,0) 100%)"></div>
+      <div style="position:absolute;left:0.6in;bottom:0.55in;width:5.9in;display:flex;flex-direction:column;gap:10px;color:#FFFFFF">
+        <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:10px;font-weight:700;letter-spacing:0.36em;color:#FFFFFF">{{ lead }}</div>
+        <div style="font-size:112px;line-height:0.9;letter-spacing:-0.03em;text-wrap:balance;text-shadow:0 2px 24px rgba(0,0,0,0.25)">{{ recipientName }}</div>
+        <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:700;letter-spacing:0.32em;color:#FFFFFF;margin-top:6px">Planted in the {{ forestName }}</div>
+      </div>
+      <div style="position:absolute;right:0;top:0;bottom:0;width:3.7in;background:#F6F1EA;display:flex;flex-direction:column;justify-content:space-between;padding:0.5in 0.42in 0.4in;box-sizing:border-box">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.42in;width:auto;display:block;align-self:flex-start">
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:700;letter-spacing:0.26em;color:#1B3330">Smart Forest Program · Ottawa</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:600;letter-spacing:0.34em;color:{{ label }}">{{ title }}</div>
+          <div style="display:flex;align-items:baseline;gap:12px;margin-top:4px">
+            <div style="font-size:{{ countSizeD }}px;line-height:0.86;letter-spacing:0.01em;color:{{ accent }}">{{ countText }}</div>
+            <div style="font-size:26px;font-style:italic;line-height:1">{{ treeNoun }}<br>planted</div>
+          </div>
+          <div style="font-size:18px;font-style:italic;line-height:1.4;color:{{ msgColor }};margin-top:8px;text-wrap:pretty">{{ quotedMessage }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:700;letter-spacing:0.26em;color:{{ label }}">{{ fromLabel }}</div>
+              <div style="font-size:21px;line-height:1.15;padding-bottom:6px;border-bottom:1px solid #1B3330">{{ giftedBy }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:700;letter-spacing:0.26em;color:{{ label }}">{{ dateLabel }}</div>
+              <div style="font-size:21px;line-height:1.15;padding-bottom:6px;border-bottom:1px solid #1B3330">{{ dateGifted }}</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;border-top:0.5px solid #1B333040;padding-top:12px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.24in;width:auto;display:block">
+            <div style="width:1px;height:0.2in;background:#1B333033"></div>
+            <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.28in;width:auto;display:block">
+          </div>
+          <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:6.5px;font-weight:600;letter-spacing:0.18em;color:#5E6E64;text-align:right;line-height:1.7">Scan to visit<br>your Smart Forest</div>
+              <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.56in;height:0.56in;display:block;border:0.5px solid #1B333033;padding:3px;background:#FFFFFF">
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isH }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)">
+      <div style="position:relative;overflow:hidden;background:#1B3330">
+        <img src="{{ photo }}" alt="" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:{{ photoPosH }}">
+        <div style="position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(to top, rgba(14,28,26,0.8) 0%, rgba(14,28,26,0.45) 45%, rgba(14,28,26,0) 100%)"></div>
+        <div style="position:absolute;left:0.55in;bottom:0.5in;display:flex;flex-direction:column;gap:4px;color:#FFFFFF">
+          <div style="font-size:{{ countSizeH }}px;line-height:0.82;letter-spacing:0.01em">{{ countText }}</div>
+          <div style="font-size:34px;font-style:italic;line-height:1">{{ treeNoun }} planted</div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:700;letter-spacing:0.3em;margin-top:12px">In the {{ forestName }}</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:space-between;padding:0.55in 0.6in 0.45in 0.55in">
+        <div style="display:flex;align-items:center;gap:16px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.44in;width:auto;display:block">
+          <div style="width:1px;height:0.34in;background:#1B333040"></div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:700;letter-spacing:0.26em;color:#1B3330;line-height:1.6">Smart Forest<br>Program</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:12px;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:600;letter-spacing:0.34em;color:{{ label }}">
+            <div style="width:30px;height:1.5px;background:{{ accent }}"></div>
+            <div>{{ title }}</div>
+          </div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:700;letter-spacing:0.28em;color:#5E6E64;margin-top:10px">{{ lead }}</div>
+          <div style="font-size:78px;line-height:0.94;letter-spacing:-0.025em;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:19px;font-style:italic;line-height:1.42;color:{{ msgColor }};margin-top:6px;text-wrap:pretty">{{ quotedMessage }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.24in">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3in">
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:700;letter-spacing:0.26em;color:{{ label }}">{{ fromLabel }}</div>
+              <div style="font-size:21px;line-height:1.15;padding-bottom:6px;border-bottom:1px solid #1B3330">{{ giftedBy }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:700;letter-spacing:0.26em;color:{{ label }}">{{ dateLabel }}</div>
+              <div style="font-size:21px;line-height:1.15;padding-bottom:6px;border-bottom:1px solid #1B3330">{{ dateGifted }}</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px;border-top:0.5px solid #1B333040;padding-top:12px">
+            <div style="display:flex;align-items:center;gap:12px">
+            <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.24in;width:auto;display:block">
+            <div style="width:1px;height:0.2in;background:#1B333033"></div>
+            <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.28in;width:auto;display:block">
+          </div>
+            <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:6.5px;font-weight:600;letter-spacing:0.18em;color:#5E6E64;text-align:right;line-height:1.7">Scan to visit<br>your Smart Forest</div>
+              <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.56in;height:0.56in;display:block;border:0.5px solid #1B333033;padding:3px;background:#FFFFFF">
+            </div>
+          </sc-if>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isI }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:grid;grid-template-columns:4.5in minmax(0,1fr)">
+      <div style="background:{{ accent }};color:#FFFFFF;display:flex;flex-direction:column;justify-content:space-between;padding:0.5in 0.5in 0.35in;overflow:hidden">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:700;letter-spacing:0.3em">
+          <div>{{ treeNounCap }} planted</div>
+          <div>{{ certNo }}</div>
+        </div>
+        <div style="font-family:Archivo,Helvetica,sans-serif;font-weight:800;font-size:{{ countSizeI }}px;line-height:0.78;letter-spacing:-0.05em;margin-left:-0.04em">{{ countText }}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:space-between;padding:0.5in 0.6in 0.4in 0.55in">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.46in;width:auto;display:block">
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8px;font-weight:700;letter-spacing:0.26em;color:#1B3330;text-align:right;line-height:1.6">Smart Forest<br>Program</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:0.3em;color:{{ accent }}">{{ title }}</div>
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:700;letter-spacing:0.26em;color:#5E6E64;margin-top:8px">{{ lead }}</div>
+          <div style="font-size:74px;line-height:0.95;letter-spacing:-0.02em;text-wrap:balance">{{ recipientName }}</div>
+          <div style="font-size:19px;font-style:italic;line-height:1.42;color:{{ msgColor }};margin-top:4px;text-wrap:pretty">{{ quotedMessage }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.22in">
+        <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid #1B333055">
+            <div style="display:flex;flex-direction:column;gap:6px;padding:12px 0 12px 0">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:700;letter-spacing:0.24em;color:{{ label }}">{{ fromLabel }}</div>
+              <div style="font-size:21px;line-height:1.15">{{ giftedBy }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;padding:12px 0 12px 16px;border-left:1px solid #1B333033">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7.5px;font-weight:700;letter-spacing:0.24em;color:{{ label }}">{{ dateLabel }}</div>
+              <div style="font-size:21px;line-height:1.15">{{ dateGifted }}</div>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:2px solid #1B3330;padding-top:12px">
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:800;letter-spacing:0.26em;color:#1B3330;line-height:1.6">Planted in the<br>{{ forestName }}</div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.22em;color:#5E6E64;line-height:1.6">In partnership<br>with</div>
+            <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.26in;width:auto;display:block">
+            <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.3in;width:auto;display:block">
+          </div>
+          <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.2em;color:#5E6E64;text-align:right;line-height:1.6">Scan to visit<br>your Smart Forest</div>
+              <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.58in;height:0.58in;display:block">
+            </div>
+          </sc-if>
+        </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isJ }}" hint-placeholder-val="">
+    <div style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:0.5in 0.7in 0.4in;background-image:repeating-linear-gradient(to bottom, transparent 0, transparent 47px, #1B333014 47px, #1B333014 48px)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:14px;border-bottom:2px solid #1B3330">
+        <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.44in;width:auto;display:block">
+        <div style="display:flex;align-items:center;gap:14px;font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:9px;font-weight:800;letter-spacing:0.3em;color:{{ accent }}">
+          <div>{{ title }}</div>
+          <div style="width:1px;height:14px;background:#1B333055"></div>
+          <div style="font-weight:600;color:#5E6E64">{{ certNo }}</div>
+        </div>
+      </div>
+      <div style="font-size:62px;line-height:1.1;letter-spacing:-0.015em;color:#1B3330;text-wrap:pretty;max-width:9in"><span style="font-family:Archivo,Helvetica,sans-serif;font-weight:800;letter-spacing:-0.04em;color:{{ accent }}">{{ countText }} {{ treeNoun }}</span> planted in the {{ forestName }}, {{ leadLower }} <span style="font-style:italic;color:{{ accent }}">{{ recipientName }}</span>. Given by {{ giftedBy }} on {{ dateGifted }}.</div>
+      <div style="display:flex;flex-direction:column;gap:0.24in">
+        <div style="font-size:19px;font-style:italic;line-height:1.42;color:{{ msgColor }};max-width:6.5in;text-wrap:pretty">{{ quotedMessage }}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:18px;border-top:2px solid #1B3330;padding-top:12px">
+          <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:8.5px;font-weight:800;letter-spacing:0.26em;color:#1B3330;line-height:1.6">Smart Forest<br>Program</div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.22em;color:#5E6E64;line-height:1.6">In partnership<br>with</div>
+            <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.26in;width:auto;display:block">
+            <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.3in;width:auto;display:block">
+          </div>
+          <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;align-items:center;gap:8px">
+              <div style="font-family:Archivo,Helvetica,sans-serif;text-transform:uppercase;font-size:7px;font-weight:600;letter-spacing:0.2em;color:#5E6E64;text-align:right;line-height:1.6">Scan to visit<br>your Smart Forest</div>
+              <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.58in;height:0.58in;display:block">
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ showFooter }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;background:#1B3330;color:#F6F1EA;padding:0.24in 0.75in 0.3in;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <div style="display:flex;align-items:center;gap:26px">
+      <sc-if value="{{ isB }}" hint-placeholder-val="">
+        <div style="display:flex;align-items:center;gap:26px">
+          <img src="assets/cftc-logo.png" alt="Canada's Forest Trust Corporation" style="height:0.42in;width:auto;display:block;filter:invert(1)">
+          <div style="width:1px;height:0.4in;background:#F6F1EA33"></div>
+        </div>
+      </sc-if>
+      <div style="font-family:Archivo,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:#E3D6C6;max-width:2.3in;line-height:1.6">Planted in the {{ forestName }}</div>
+      <div style="display:flex;align-items:center;gap:14px">
+        <div style="font-family:Archivo,Helvetica,sans-serif;font-size:7.5px;font-weight:500;letter-spacing:0.22em;text-transform:uppercase;color:#A9B5B0;line-height:1.6;width:1.05in">In partnership with</div>
+        <div style="display:flex;align-items:center;gap:18px">
+          <img src="assets/ottawa-logo.svg" alt="City of Ottawa" style="height:0.3in;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.92">
+          <div style="width:1px;height:0.26in;background:#F6F1EA40"></div>
+          <img src="assets/cool-climate-club.svg" alt="Cool Climate Club" style="height:0.34in;width:auto;display:block;filter:brightness(0) invert(1);opacity:0.92">
+        </div>
+      </div>
+    </div>
+    <sc-if value="{{ showQr }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="font-family:Archivo,Helvetica,sans-serif;font-size:7.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:#E3D6C6;text-align:right;line-height:1.7">Scan to visit<br>your Smart Forest</div>
+        <div style="background:#FFFFFF;border-radius:6px;padding:5px">
+          <img src="assets/qr-example.png" alt="Scan to visit your Smart Forest" style="width:0.66in;height:0.66in;display:block">
+        </div>
+      </div>
+    </sc-if>
+  </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1056,&quot;height&quot;:816},&quot;occasion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;dedication&quot;,&quot;memorial&quot;,&quot;newchild&quot;,&quot;birthday&quot;,&quot;service&quot;],&quot;default&quot;:&quot;dedication&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Certificate&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,&quot;E&quot;,&quot;F&quot;,&quot;G&quot;,&quot;H&quot;,&quot;I&quot;,&quot;J&quot;],&quot;default&quot;:&quot;A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Certificate&quot;},&quot;recipientName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Ada Chen&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;treeCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:1,&quot;min&quot;:1,&quot;max&quot;:5000,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;message&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Planted in loving memory.&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;certificateNo&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;No. SFP-2026-000347&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;giftedBy&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ABC Corporation&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;dateGifted&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;September 21, 2026&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;forestName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Ottawa Smart Forest&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;showQr&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Display&quot;}}">
+const FADE = "radial-gradient(closest-side, #000 62%, transparent 100%)";
+const PLATES = { dedication: ["Sugar Maple", "Acer saccharum"], memorial: ["Eastern White Pine", "Pinus strobus"], newchild: ["Red Maple", "Acer rubrum"], birthday: ["Flowering Cherry", "Prunus serrulata"], service: ["Red Oak", "Quercus rubra"] };
+const OCC = {
+  dedication: {
+    title: "Certificate of Dedication", lead: "In honour of", accent: "#A8321E", label: "#8C2A1A", msgColor: "#5A3328",
+    name: "Ada Chen", msg: "Planted in loving memory.", by: "ABC Corporation", date: "September 21, 2026", count: 1,
+    a: { src: "assets/gen/dedication-a.png", w: "3.5in", h: "2.58in", right: "-0.08in", top: "-0.08in", rot: 0, filter: "none", op: 1, mask: "none", flip: "none" },
+    b: { src: "assets/gen/dedication-b.png", w: "2.2in", h: "1.3in", filter: "none", op: 1, mask: "none" },
+  },
+  memorial: {
+    title: "Certificate of Remembrance", lead: "In loving memory of", accent: "#3E5A4C", label: "#4F6B5C", msgColor: "#3F4F47",
+    name: "Margaret Lavoie", msg: "Forever rooted in our hearts.", by: "ABC Corporation", date: "October 2, 2026", count: 12,
+    a: { src: "assets/gen/memorial-a.png", w: "4.6in", h: "2.56in", right: "-0.08in", top: "-0.08in", rot: 0, filter: "none", op: 1, mask: "none", flip: "none" },
+    b: { src: "assets/gen/memorial-b.png", w: "2.2in", h: "1.3in", filter: "none", op: 1, mask: "none" },
+  },
+  newchild: {
+    title: "Certificate of Welcome", lead: "Welcoming", accent: "#B5526A", label: "#9A4058", msgColor: "#5E3A44",
+    name: "Olivia Tremblay", msg: "Born March 14, 2026. May you grow tall alongside your tree.", by: "ABC Corporation", date: "April 22, 2026", count: 1,
+    a: { src: "assets/gen/newchild-a.png", w: "2.7in", h: "3.0in", right: "-0.08in", top: "-0.08in", rot: 0, filter: "none", op: 1, mask: "none", flip: "none" },
+    b: { src: "assets/gen/newchild-b.png", w: "2.2in", h: "1.3in", filter: "none", op: 1, mask: "none" },
+  },
+  birthday: {
+    title: "Birthday Certificate", lead: "Celebrating", accent: "#B8434E", label: "#933442", msgColor: "#5E3036",
+    name: "David Nguyen", msg: "Happy 60th birthday \u2014 here\u2019s to many more seasons.", by: "ABC Corporation", date: "June 8, 2026", count: 60,
+    a: { src: "assets/gen/birthday-a.png", w: "4.3in", h: "2.91in", right: "-0.08in", top: "-0.08in", rot: 0, filter: "none", op: 1, mask: "none", flip: "none" },
+    b: { src: "assets/gen/birthday-b.png", w: "2.2in", h: "1.3in", filter: "none", op: 1, mask: "none" },
+  },
+  service: {
+    title: "Certificate of Recognition", lead: "In recognition of", accent: "#8A6A2E", label: "#6E5424", msgColor: "#4A4030",
+    name: "Sandra Mitchell", msg: "Twenty-five years of dedicated service to the City of Ottawa.", by: "ABC Corporation", date: "November 15, 2026", count: 25,
+    a: { src: "assets/gen/service-a.png", w: "3.8in", h: "2.67in", right: "-0.08in", top: "-0.08in", rot: 0, filter: "none", op: 1, mask: "none", flip: "none" },
+    b: { src: "assets/gen/service-b.png", w: "2.2in", h: "1.3in", filter: "none", op: 1, mask: "none" },
+    from: "Presented By", dateLabel: "Date Presented",
+  }
+};
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const o = OCC[p.occasion] ?? OCC.dedication;
+    const variant = p.variant ?? "A";
+    const count = Math.max(1, parseInt(p.treeCount ?? o.count, 10) || 1);
+    const countText = count.toLocaleString("en-CA");
+    const msg = (p.message ?? o.msg).trim().replace(/^[\u201C"]|[\u201D"]$/g, "");
+    return {
+      isA: variant === "A", isB: variant === "B", isC: variant === "C", isD: variant === "D", isE: variant === "E", isF: variant === "F", isG: variant === "G", isH: variant === "H", isI: variant === "I", isJ: variant === "J",
+      treeNounCap: count === 1 ? "Tree" : "Trees",
+      leadLower: o.lead.toLowerCase(),
+      countSizeI: ({ 1: 470, 2: 360, 3: 250, 4: 190, 5: 160 })[countText.length] ?? 140,
+      photo: "assets/photo-" + (OCC[p.occasion] ? p.occasion : "dedication") + ".jpg",
+      photoPos: ({ dedication: "30% 50%", memorial: "20% 50%", newchild: "25% 50%", birthday: "20% 50%", service: "30% 50%" })[p.occasion] ?? "30% 50%",
+      photoPosH: ({ dedication: "12% 50%", memorial: "18% 50%", newchild: "24% 50%", birthday: "10% 50%", service: "22% 50%" })[p.occasion] ?? "15% 50%",
+      countSizeH: ({ 1: 230, 2: 230, 3: 180, 4: 140, 5: 140 })[countText.length] ?? 120,
+      showFooter: !["D", "E", "F", "G", "H", "I", "J"].includes(variant),
+      certNo: p.certificateNo ?? "No. SFP-2026-000347",
+      plateNo: "Plate \u00B7 " + (({dedication:"I",memorial:"II",newchild:"III",birthday:"IV",service:"V"})[p.occasion] ?? "I"),
+      plateName: (PLATES[p.occasion] ?? PLATES.dedication)[0], plateLatin: (PLATES[p.occasion] ?? PLATES.dedication)[1],
+      countLine: countText + " " + (count === 1 ? "tree" : "trees") + " planted in the " + (p.forestName ?? "Ottawa Smart Forest"),
+      countSizeD: ({ 1: 150, 2: 150, 3: 124, 4: 100, 5: 100 })[countText.length] ?? 90,
+      title: o.title, lead: o.lead, accent: o.accent, label: o.label, msgColor: o.msgColor,
+      fromLabel: o.from ?? "Gifted By", dateLabel: o.dateLabel ?? "Date Gifted",
+      hasArtA: !!o.a, artA: o.a ?? {}, needArtA: o.a ? "" : (o.needA ?? ""),
+      hasArtB: !!o.b, artB: o.b ?? {}, needArtB: o.b ? "" : (o.needB ?? ""),
+      countText, countSize: ({ 1: 240, 2: 240, 3: 200, 4: 150, 5: 150 })[countText.length] ?? 130,
+      treeNoun: count === 1 ? "tree" : "trees",
+      recipientName: p.recipientName ?? o.name,
+      quotedMessage: "\u201C" + msg + "\u201D",
+      forestName: p.forestName ?? "Ottawa Smart Forest",
+      giftedBy: p.giftedBy ?? o.by,
+      dateGifted: p.dateGifted ?? o.date,
+      showQr: p.showQr ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>
