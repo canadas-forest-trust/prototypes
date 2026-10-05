@@ -589,7 +589,10 @@ const OCC = {
 };
 class Component extends DCLogic {
   renderVals() {
-    const p = this.props;
+    const q = new URLSearchParams(location.search);
+    const p = Object.assign({}, this.props);
+    if (q.get("occasion")) p.occasion = q.get("occasion");
+    if (q.get("variant")) p.variant = q.get("variant");
     const o = OCC[p.occasion] ?? OCC.dedication;
     const variant = p.variant ?? "A";
     const count = Math.max(1, parseInt(p.treeCount ?? o.count, 10) || 1);
@@ -625,6 +628,47 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function () {
+  const q = new URLSearchParams(location.search);
+  if (!q.get("variant")) return;
+  document.documentElement.style.background = "#E9E3D8";
+  document.body.style.margin = "0";
+  document.body.style.background = "#E9E3D8";
+  const stageW = 1056;
+  const stageH = 816;
+  const back = document.createElement("a");
+  const sheet = q.get("sheet");
+  back.href = "./" + (sheet ? "#" + sheet : "");
+  back.textContent = "All directions";
+  back.style.cssText = "position:fixed;top:16px;left:16px;z-index:20;background:#F6F1EA;color:#1B3330;font:600 13px/1 Archivo,Helvetica,sans-serif;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;padding:10px 14px";
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") location.href = back.href;
+  });
+
+  function fit() {
+    const root = document.getElementById("dc-root");
+    const host = root && root.querySelector(":scope > .sc-host");
+    if (!root || !host) return false;
+    root.style.cssText = "height:100vh;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#E9E3D8";
+    const scale = Math.min(window.innerWidth / stageW, window.innerHeight / stageH);
+    host.style.width = stageW + "px";
+    host.style.height = stageH + "px";
+    host.style.flex = "none";
+    host.style.transformOrigin = "center center";
+    host.style.transform = "scale(" + scale + ")";
+    return true;
+  }
+
+  function start() {
+    if (!document.body.contains(back)) document.body.appendChild(back);
+    if (!fit()) requestAnimationFrame(start);
+  }
+  window.addEventListener("resize", fit);
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start);
+  else start();
+})();
 </script>
 </body>
 </html>
