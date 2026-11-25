@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Outreach assist — Canada’s Forest Trust</title>
+  <meta name="description" content="Clickable sample of Adil’s outreach assist: company lookup, sample dossier, approve-before-send, one follow-up task." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Red+Hat+Display:wght@600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --paper: #faf8f2;
+      --paper-2: #f7f5ef;
+      --rule: #e2ddd0;
+      --ink: #17150f;
+      --ink-2: #3a352b;
+      --ink-3: #5c574b;
+      --started: #6fbe93;
+      --started-deep: #2e8b57;
+      --built: #1b6a3e;
+      --raise: #12351f;
+      --gold: #b46a3a;
+      --white: #fff;
+      --display: "Red Hat Display", ui-sans-serif, system-ui, sans-serif;
+      --body: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+      --max: 48rem;
+      --gutter: clamp(1.25rem, 4vw, 2.5rem);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .panel { animation: none; }
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 1.0625rem;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--built); }
+    a:hover { color: var(--raise); }
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible {
+      outline: 2px solid var(--built);
+      outline-offset: 3px;
+    }
+
+    .wrap { width: min(var(--max), 100% - 2 * var(--gutter)); margin-inline: auto; }
+
+    header.top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 1.25rem 0 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    header.top p {
+      margin: 0;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 500;
+    }
+
+    .hero { padding: 2.5rem 0 1.5rem; }
+    .hero h1 {
+      font-family: var(--display);
+      font-weight: 800;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+      margin: 0 0 0.85rem;
+    }
+    .hero .lede {
+      max-width: 38rem;
+      font-size: 1.125rem;
+      color: var(--ink-2);
+      margin: 0;
+    }
+
+    .banner {
+      margin: 0 0 1.75rem;
+      padding: 0.85rem 1rem;
+      background: var(--raise);
+      color: var(--white);
+      border-radius: 2px;
+      font-size: 0.95rem;
+    }
+    .banner strong { font-weight: 600; }
+
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 1.35rem 1.4rem 1.5rem;
+      margin-bottom: 1.25rem;
+      animation: rise 0.35s ease both;
+    }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: none; }
+    }
+    .panel[hidden] { display: none; }
+
+    .panel h2 {
+      font-family: var(--display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 0.35rem;
+    }
+    .panel .hint {
+      margin: 0 0 1.1rem;
+      color: var(--ink-3);
+      font-size: 0.95rem;
+    }
+
+    .sample-tag {
+      display: inline-block;
+      margin: 0 0 1rem;
+      padding: 0.2rem 0.55rem;
+      border: 1px solid var(--rule);
+      background: var(--paper-2);
+      color: var(--ink-3);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      margin: 0 0 0.35rem;
+    }
+    .field { margin-bottom: 1rem; }
+    .field:last-of-type { margin-bottom: 1.15rem; }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      color: var(--ink);
+      font: inherit;
+      padding: 0.65rem 0.75rem;
+      border-radius: 2px;
+    }
+    textarea { min-height: 7.5rem; resize: vertical; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      align-items: center;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 2px;
+      font: inherit;
+      font-weight: 600;
+      padding: 0.65rem 1rem;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: var(--built);
+      color: var(--white);
+    }
+    .btn-primary:hover:not(:disabled) { background: var(--raise); }
+    .btn-secondary {
+      background: var(--paper-2);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+    }
+    .btn-secondary:hover:not(:disabled) { background: var(--rule); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px dashed var(--rule);
+    }
+
+    .status {
+      font-size: 0.9rem;
+      color: var(--ink-3);
+    }
+    .status.ok { color: var(--started-deep); font-weight: 600; }
+    .status.warn { color: var(--gold); font-weight: 600; }
+    .error {
+      margin: 0.5rem 0 0;
+      color: var(--gold);
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    .brief {
+      display: grid;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+    .brief dt {
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      font-weight: 600;
+      margin: 0 0 0.2rem;
+    }
+    .brief dd {
+      margin: 0;
+      color: var(--ink-2);
+    }
+
+    .people {
+      list-style: none;
+      margin: 0 0 1.15rem;
+      padding: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+    .people li {
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      border-radius: 2px;
+    }
+    .people label.person {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      margin: 0;
+      padding: 0.8rem 0.9rem;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .people input { margin-top: 0.3rem; }
+    .people .name { font-weight: 600; }
+    .people .meta { color: var(--ink-3); font-size: 0.92rem; }
+
+    .task-card {
+      border-left: 3px solid var(--built);
+      padding-left: 0.9rem;
+      margin-bottom: 1rem;
+    }
+    .task-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
+    }
+    .task-card p { margin: 0 0 0.35rem; color: var(--ink-2); }
+    .task-card .meta { color: var(--ink-3); font-size: 0.9rem; }
+
+    footer.page {
+      padding: 2rem 0 3rem;
+      color: var(--ink-3);
+      font-size: 0.9rem;
+      border-top: 1px solid var(--rule);
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <p>Canada’s Forest Trust · Prototypes</p>
+      <p>Outreach assist</p>
+    </header>
+
+    <section class="hero">
+      <h1>Outreach assist</h1>
+      <p class="lede">
+        Click through Adil’s flow: name a company, review a sample dossier, approve a draft, then see one follow-up task.
+      </p>
+    </section>
+
+    <p class="banner" role="status">
+      <strong>Sample only.</strong>
+      No live search, no Apollo, no OpenAI, and no email is sent. Proof points and people are fixed sample copy.
+    </p>
+
+    <section class="panel" id="lookup-panel" aria-labelledby="lookup-title">
+      <h2 id="lookup-title">1. Company</h2>
+      <p class="hint">Type a company. Leave the website blank if you like. Empty company name does not advance.</p>
+
+      <div class="field">
+        <label for="company">Company name</label>
+        <input id="company" type="text" autocomplete="organization" placeholder="Sample Goods Co." value="Sample Goods Co." />
+      </div>
+      <div class="field">
+        <label for="website">Website <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <input id="website" type="text" autocomplete="url" placeholder="sample-goods.example" value="sample-goods.example" />
+      </div>
+      <div class="field">
+        <label for="staff-note">Staff note</label>
+        <textarea id="staff-note" placeholder="Met them at an Ottawa event.">Met them at an Ottawa event.</textarea>
+      </div>
+      <div class="field">
+        <label for="typed-contact">Contact name you already know <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+        <input id="typed-contact" type="text" autocomplete="name" placeholder="Leave blank to use a suggested person" />
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="prepare-btn">Prepare sample</button>
+        <span class="error" id="lookup-error" hidden>Enter a company name.</span>
+      </div>
+    </section>
+
+    <section class="panel" id="dossier-panel" hidden aria-labelledby="dossier-title">
+      <h2 id="dossier-title">2. Sample dossier</h2>
+      <p class="hint">Why-fit echoes your note. People and proof points are sample data, not a live lookup.</p>
+      <span class="sample-tag">Sample, not looked up</span>
+
+      <dl class="brief">
+        <div>
+          <dt>Why fit</dt>
+          <dd id="why-fit"></dd>
+        </div>
+        <div>
+          <dt>Proof point</dt>
+          <dd id="proof-point">We plant trees with local partners.</dd>
+        </div>
+        <div>
+          <dt>Angle</dt>
+          <dd>Cite a line from their public site and ask for a short call.</dd>
+        </div>
+        <div>
+          <dt>Do not claim</dt>
+          <dd>Do not invent case studies, metrics, or sustainability programs.</dd>
+        </div>
+      </dl>
+
+      <label>Suggested people</label>
+      <ul class="people" id="people-list" role="radiogroup" aria-label="Suggested people"></ul>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="draft-btn">Prepare draft</button>
+      </div>
+    </section>
+
+    <section class="panel" id="draft-panel" hidden aria-labelledby="draft-title">
+      <h2 id="draft-title">3. Draft</h2>
+      <p class="hint">Approve is required before send. Editing subject or body after approval returns the draft to draft.</p>
+
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input id="subject" type="text" />
+      </div>
+      <div class="field">
+        <label for="body">Body</label>
+        <textarea id="body"></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-secondary" id="approve-btn">Approve</button>
+        <button type="button" class="btn-primary" id="send-btn" disabled>Send</button>
+        <span class="status" id="draft-status">Status: draft</span>
+      </div>
+      <p class="status warn" id="send-message" hidden>Not sent. This is a sample.</p>
+    </section>
+
+    <section class="panel" id="task-panel" hidden aria-labelledby="task-title">
+      <h2 id="task-title">4. Follow-up task</h2>
+      <p class="hint">One reminder for Adil. This task does not send email.</p>
+
+      <div class="task-card" id="task-card">
+        <h3 id="task-heading"></h3>
+        <p class="meta" id="task-meta"></p>
+        <p>Log a reply or write the follow-up. This task does not send email.</p>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-secondary" id="log-reply-btn">Log reply</button>
+        <span class="status ok" id="task-cleared" hidden>Task cleared. Reply logged.</span>
+      </div>
+    </section>
+
+    <footer class="page">
+      Static GitHub Pages POC. The production CRM flow stays in cftc.api / cftc.app.
+    </footer>
+  </div>
+
+  <script>
+    (function () {
+      const SAMPLE_PEOPLE = [
+        {
+          id: "pat",
+          name: "Pat Lee",
+          role: "Head of Sustainability",
+          email: "pat@sample-goods.example",
+        },
+        {
+          id: "jordan",
+          name: "Jordan Ames",
+          role: "Partnerships Manager",
+          email: "jordan@sample-goods.example",
+        },
+        {
+          id: "sam",
+          name: "Sam Ortiz",
+          role: "Marketing Director",
+          email: "sam@sample-goods.example",
+        },
+      ];
+      const SAMPLE_PROOF = "We plant trees with local partners.";
+
+      const els = {
+        company: document.getElementById("company"),
+        website: document.getElementById("website"),
+        staffNote: document.getElementById("staff-note"),
+        typedContact: document.getElementById("typed-contact"),
+        prepareBtn: document.getElementById("prepare-btn"),
+        lookupError: document.getElementById("lookup-error"),
+        dossierPanel: document.getElementById("dossier-panel"),
+        whyFit: document.getElementById("why-fit"),
+        peopleList: document.getElementById("people-list"),
+        draftBtn: document.getElementById("draft-btn"),
+        draftPanel: document.getElementById("draft-panel"),
+        subject: document.getElementById("subject"),
+        body: document.getElementById("body"),
+        approveBtn: document.getElementById("approve-btn"),
+        sendBtn: document.getElementById("send-btn"),
+        draftStatus: document.getElementById("draft-status"),
+        sendMessage: document.getElementById("send-message"),
+        taskPanel: document.getElementById("task-panel"),
+        taskHeading: document.getElementById("task-heading"),
+        taskMeta: document.getElementById("task-meta"),
+        taskCard: document.getElementById("task-card"),
+        logReplyBtn: document.getElementById("log-reply-btn"),
+        taskCleared: document.getElementById("task-cleared"),
+      };
+
+      const state = {
+        company: "",
+        whyFit: "",
+        selectedPersonId: SAMPLE_PEOPLE[0].id,
+        typedContact: "",
+        draftStatus: "draft",
+        suppressEditReset: false,
+      };
+
+      function addBusinessDays(from, days) {
+        const d = new Date(from.getTime());
+        let remaining = days;
+        while (remaining > 0) {
+          d.setUTCDate(d.getUTCDate() + 1);
+          const dow = d.getUTCDay();
+          if (dow !== 0 && dow !== 6) remaining -= 1;
+        }
+        return d;
+      }
+
+      function formatDate(d) {
+        return d.toLocaleDateString("en-CA", {
+          weekday: "short",
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          timeZone: "UTC",
+        });
+      }
+
+      function firstName(full) {
+        const part = String(full || "").trim().split(/\s+/)[0];
+        return part || "there";
+      }
+
+      function selectedPerson() {
+        return SAMPLE_PEOPLE.find((p) => p.id === state.selectedPersonId) || SAMPLE_PEOPLE[0];
+      }
+
+      function contactFirstName() {
+        const typed = state.typedContact.trim();
+        if (typed) return firstName(typed);
+        return firstName(selectedPerson().name);
+      }
+
+      function setDraftStatus(status) {
+        state.draftStatus = status;
+        els.draftStatus.textContent = "Status: " + status;
+        els.draftStatus.className = "status" + (status === "approved" ? " ok" : "");
+        els.sendBtn.disabled = status !== "approved";
+        els.approveBtn.disabled = status === "approved";
+      }
+
+      function renderPeople() {
+        els.peopleList.innerHTML = SAMPLE_PEOPLE.map((person) => {
+          const checked = person.id === state.selectedPersonId ? "checked" : "";
+          return (
+            '<li>' +
+            '<label class="person">' +
+            '<input type="radio" name="person" value="' + person.id + '" ' + checked + ' />' +
+            '<span>' +
+            '<span class="name">' + person.name + '</span><br />' +
+            '<span class="meta">' + person.role + ' · ' + person.email + '</span>' +
+            '</span>' +
+            '</label>' +
+            '</li>'
+          );
+        }).join("");
+
+        els.peopleList.querySelectorAll('input[name="person"]').forEach((input) => {
+          input.addEventListener("change", () => {
+            state.selectedPersonId = input.value;
+            if (els.draftPanel.hidden) return;
+            if (state.draftStatus === "approved") {
+              // Regenerate draft content from selection; typed contact stays.
+              fillDraft();
+              setDraftStatus("draft");
+              els.sendMessage.hidden = true;
+            } else {
+              fillDraft();
+            }
+          });
+        });
+      }
+
+      function fillDraft() {
+        const company = state.company;
+        const name = contactFirstName();
+        state.suppressEditReset = true;
+        els.subject.value = "Tree planting partnership for " + company;
+        els.body.value =
+          "Hi " + name + ",\n\n" +
+          "I noticed a line on your site — “" + SAMPLE_PROOF + "” — and wanted to share how Canada’s Forest Trust helps companies plant real trees in Canada with transparent impact.\n\n" +
+          "Would you be open to a short call to see if a tree program fits " + company + "?\n\n" +
+          "Best regards";
+        state.suppressEditReset = false;
+      }
+
+      function prepareSample() {
+        const company = els.company.value.trim();
+        els.lookupError.hidden = Boolean(company);
+        if (!company) return;
+
+        state.company = company;
+        state.typedContact = els.typedContact.value;
+        const note = els.staffNote.value.trim();
+        state.whyFit = note || "No staff context provided.";
+        state.selectedPersonId = SAMPLE_PEOPLE[0].id;
+
+        els.whyFit.textContent = state.whyFit;
+        renderPeople();
+
+        els.dossierPanel.hidden = false;
+        els.draftPanel.hidden = true;
+        els.taskPanel.hidden = true;
+        els.sendMessage.hidden = true;
+        els.taskCleared.hidden = true;
+        els.taskCard.hidden = false;
+        els.logReplyBtn.hidden = false;
+        setDraftStatus("draft");
+
+        els.dossierPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function prepareDraft() {
+        state.typedContact = els.typedContact.value;
+        fillDraft();
+        setDraftStatus("draft");
+        els.sendMessage.hidden = true;
+        els.taskPanel.hidden = true;
+        els.draftPanel.hidden = false;
+        els.draftPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function approveDraft() {
+        setDraftStatus("approved");
+      }
+
+      function sendDraft() {
+        if (state.draftStatus !== "approved") return;
+        els.sendMessage.hidden = false;
+
+        const due = addBusinessDays(new Date(), 5);
+        els.taskHeading.textContent = "Follow up if no reply — " + state.company;
+        els.taskMeta.textContent =
+          "Assigned to Adil · Due " + formatDate(due) + " (5 business days)";
+        els.taskCard.hidden = false;
+        els.logReplyBtn.hidden = false;
+        els.taskCleared.hidden = true;
+        els.taskPanel.hidden = false;
+        els.taskPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function logReply() {
+        els.taskCard.hidden = true;
+        els.logReplyBtn.hidden = true;
+        els.taskCleared.hidden = false;
+      }
+
+      function onDraftEdit() {
+        if (state.suppressEditReset) return;
+        if (state.draftStatus !== "approved") return;
+        setDraftStatus("draft");
+        els.sendMessage.hidden = true;
+        els.taskPanel.hidden = true;
+      }
+
+      els.prepareBtn.addEventListener("click", prepareSample);
+      els.draftBtn.addEventListener("click", prepareDraft);
+      els.approveBtn.addEventListener("click", approveDraft);
+      els.sendBtn.addEventListener("click", sendDraft);
+      els.logReplyBtn.addEventListener("click", logReply);
+      els.subject.addEventListener("input", onDraftEdit);
+      els.body.addEventListener("input", onDraftEdit);
+      els.typedContact.addEventListener("input", () => {
+        state.typedContact = els.typedContact.value;
+        // Picking a suggested person never overwrites a typed contact name.
+        // If a draft is already open, refresh greeting from typed name.
+        if (!els.draftPanel.hidden) {
+          const wasApproved = state.draftStatus === "approved";
+          fillDraft();
+          if (wasApproved) setDraftStatus("draft");
+        }
+      });
+      els.company.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          prepareSample();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
