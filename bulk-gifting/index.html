@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bulk gifting cart · prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --canvas: #f7f5ef;
+        --panel: #fffcf7;
+        --inset: #f3f0e8;
+        --ink: #17150f;
+        --ink-soft: #3a352b;
+        --muted: #8c8676;
+        --accent: #1b6a3e;
+        --accent-strong: #16482a;
+        --hairline: #e2ddd0;
+        --field: #d9d3c5;
+        --warning: #b46a3a;
+        --danger: #b4453a;
+        --font: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
+      }
+      * { box-sizing: border-box; }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        background: #e7e2d6;
+        color: var(--ink);
+        font-family: var(--font);
+        font-size: 15px;
+        line-height: 1.45;
+        -webkit-font-smoothing: antialiased;
+      }
+      button, input, select { font: inherit; color: inherit; }
+      button { cursor: pointer; }
+      button:focus-visible, input:focus-visible, select:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+      }
+
+      .stage {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+      .proto {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.55rem 1.25rem;
+        background: var(--ink);
+        color: #f7f5ef;
+        font-size: 13px;
+      }
+      .proto strong { font-weight: 600; }
+      .proto span { color: #c9c2b2; }
+      .steps { display: flex; gap: 0.35rem; margin-left: auto; }
+      .steps button {
+        border: 1px solid transparent;
+        background: transparent;
+        color: #c9c2b2;
+        border-radius: 999px;
+        padding: 0.25rem 0.7rem;
+        font-size: 12px;
+      }
+      .steps button[aria-current="step"] {
+        background: #f7f5ef;
+        color: var(--ink);
+      }
+
+      .app { flex: 1; background: var(--canvas); }
+      .hub-bar, .pay-bar {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 0.85rem 1.75rem;
+        background: var(--panel);
+        border-bottom: 1px solid var(--hairline);
+      }
+      .mark {
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        font-size: 15px;
+      }
+      .mark em { font-style: normal; color: var(--accent); }
+      nav { display: flex; gap: 1.15rem; font-size: 14px; color: var(--ink-soft); }
+      nav .on {
+        color: var(--ink);
+        font-weight: 600;
+        box-shadow: inset 0 -2px 0 var(--accent);
+        padding-bottom: 0.15rem;
+      }
+      .who { margin-left: auto; font-size: 13px; color: var(--muted); }
+      .who b { color: var(--ink); font-weight: 600; }
+
+      .wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+      .kicker {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin: 0 0 0.35rem;
+      }
+      h1 {
+        margin: 0;
+        font-size: 3rem;
+        line-height: 1;
+        letter-spacing: -0.04em;
+        font-weight: 700;
+      }
+      .intro { max-width: 42rem; color: var(--ink-soft); margin: 0.8rem 0 0; }
+      .rule { height: 3px; background: var(--ink); border: 0; margin: 1.25rem 0 1.5rem; }
+
+      .tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; }
+      .tab, .pay, .ghost, .add {
+        border-radius: 2px;
+        padding: 0.45rem 0.8rem;
+        border: 1px solid var(--ink);
+      }
+      .tab { background: transparent; }
+      .tab.on, .pay, .add { background: var(--accent); color: #f7f5ef; border-color: var(--accent-strong); }
+      .ghost { background: transparent; }
+      .pay { padding: 0.7rem 1.1rem; font-weight: 600; }
+      .pay:disabled, .add:disabled { opacity: 0.45; cursor: not-allowed; }
+
+      .grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.25rem; align-items: start; }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--hairline);
+        padding: 1.1rem 1.15rem 1.2rem;
+      }
+      .panel h2 { margin: 0 0 0.85rem; font-size: 1.05rem; }
+      label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 13px; color: var(--ink-soft); }
+      label span { font-weight: 500; }
+      input, select {
+        background: #fff;
+        border: 1px solid var(--field);
+        padding: 0.5rem 0.6rem;
+        border-radius: 2px;
+      }
+      .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      .fields .wide { grid-column: 1 / -1; }
+      .row-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.9rem; }
+      .hint { color: var(--muted); font-size: 13px; margin: 0; }
+
+      table { width: 100%; border-collapse: collapse; font-size: 14px; }
+      th {
+        text-align: left;
+        font-size: 11px;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 500;
+        padding: 0.45rem 0.4rem;
+        border-bottom: 1px solid var(--hairline);
+      }
+      td { padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+      td small { display: block; color: var(--muted); }
+      .num { text-align: right; font-variant-numeric: tabular-nums; }
+      .x {
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        padding: 0;
+      }
+
+      .summary .line, .summary .total {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 0.35rem 0;
+      }
+      .summary .total {
+        margin-top: 0.8rem;
+        padding-top: 0.8rem;
+        border-top: 3px solid var(--ink);
+        font-weight: 600;
+        font-size: 1.15rem;
+      }
+      .note {
+        background: var(--inset);
+        border: 1px dashed var(--field);
+        padding: 0.75rem 0.8rem;
+        font-size: 13px;
+        color: var(--ink-soft);
+        margin: 0 0 0.9rem;
+      }
+
+      .checkout {
+        max-width: 440px;
+        margin: 4rem auto;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 12px 40px rgba(23, 21, 15, 0.12);
+        overflow: hidden;
+      }
+      .checkout header {
+        background: #0a2540;
+        color: white;
+        padding: 1rem 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .checkout header b { font-weight: 600; letter-spacing: -0.02em; }
+      .checkout .body { padding: 1.2rem 1.2rem 1.4rem; }
+      .checkout h2 { margin: 0 0 0.25rem; font-size: 1.35rem; }
+      .muted { color: var(--muted); font-size: 13px; }
+      .cardbox {
+        margin: 1rem 0;
+        border: 1px solid var(--hairline);
+        border-radius: 6px;
+        padding: 0.75rem;
+        color: var(--muted);
+        font-family: var(--mono);
+        font-size: 13px;
+      }
+
+      .done { max-width: 720px; }
+      .done h1 { font-size: 2.4rem; }
+      .cards { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
+      .card {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 0.4rem 1rem;
+        background: var(--panel);
+        border: 1px solid var(--hairline);
+        padding: 0.85rem 1rem;
+      }
+      .card b { font-weight: 600; }
+      .pill {
+        font-family: var(--mono);
+        font-size: 11px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        align-self: center;
+        color: var(--accent-strong);
+      }
+      .screen { display: none; }
+      .screen.on { display: block; }
+      @media (max-width: 860px) {
+        .grid { grid-template-columns: 1fr; }
+        h1 { font-size: 2.2rem; }
+        nav { display: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="proto">
+        <strong>Prototype</strong>
+        <span>Gifting cart. One payment, one card per person. Not built.</span>
+        <div class="steps" role="tablist" aria-label="Prototype screens">
+          <button type="button" data-go="cart" aria-current="step">Cart</button>
+          <button type="button" data-go="pay">Pay once</button>
+          <button type="button" data-go="sent">Sent</button>
+        </div>
+      </div>
+
+      <div id="cart" class="screen app on">
+        <header class="hub-bar">
+          <div class="mark">Canada's <em>Forest</em> Trust</div>
+          <nav>
+            <span>Our Forest</span>
+            <span>Learning Centre</span>
+            <span>Marketing Assets</span>
+            <span>Showcase Your Impact</span>
+            <span class="on">Gifting</span>
+          </nav>
+          <div class="who">First Avenue · <b>Avery Chen</b></div>
+        </header>
+        <main class="wrap">
+          <p class="kicker">Gifting</p>
+          <h1>Gifting</h1>
+          <p class="intro">Gift trees for a service award, birthday, or retirement. Add everyone to the cart and pay once. Each person receives a personalized digital card and certificate.</p>
+          <hr class="rule" />
+          <div class="tabs">
+            <button class="tab on" type="button">Send a gift</button>
+            <button class="tab" type="button">Recent gifts</button>
+          </div>
+          <div class="grid">
+            <section class="panel">
+              <h2>Add a person</h2>
+              <div class="fields">
+                <label>Name<input id="name" value="Noah Patel" /></label>
+                <label>Email<input id="email" type="email" value="noah.patel@firstave.example" /></label>
+                <label>Occasion
+                  <select id="occasion">
+                    <option value="Service award" selected>Service award</option>
+                    <option>Birthday</option>
+                    <option>Retirement</option>
+                    <option>Birth</option>
+                    <option>Memorial</option>
+                  </select>
+                </label>
+                <label>Years
+                  <select id="years">
+                    <option>5 years</option>
+                    <option selected>10 years</option>
+                    <option>15 years</option>
+                  </select>
+                </label>
+                <label>Trees<input id="trees" type="number" min="1" max="500" value="5" /></label>
+              </div>
+              <div class="row-actions">
+                <p class="hint" id="line-price"></p>
+                <button class="add" type="button" id="add">Add to cart</button>
+              </div>
+            </section>
+            <aside class="panel summary">
+              <h2>Cart</h2>
+              <p class="note">One Stripe payment. The forest is credited once, for every tree in the cart.</p>
+              <div id="cart-lines"></div>
+              <div class="total"><span id="cart-meta">0 people</span><span id="cart-total">$0.00</span></div>
+              <button class="pay" type="button" id="checkout" style="width:100%; margin-top: 1rem;">Pay once</button>
+            </aside>
+          </div>
+          <div class="panel" style="margin-top: 1.25rem;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Recipient</th>
+                  <th>Occasion</th>
+                  <th class="num">Trees</th>
+                  <th class="num">Price</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="cart-body"></tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+
+      <div id="pay" class="screen">
+        <div class="checkout">
+          <header><b>Stripe</b><span>Canada's Forest Trust</span></header>
+          <div class="body">
+            <p class="kicker">One payment</p>
+            <h2 id="pay-total">$0.00</h2>
+            <p class="muted" id="pay-meta">First Avenue · service awards</p>
+            <div class="cardbox">Card · Avery Chen ·•••• 4242</div>
+            <p class="hint">A promotion code can be entered here. Andrew creates it in Stripe.</p>
+            <div class="row-actions">
+              <button class="ghost" type="button" data-go="cart">Back to cart</button>
+              <button class="pay" type="button" id="confirm">Pay</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="sent" class="screen app">
+        <header class="hub-bar">
+          <div class="mark">Canada's <em>Forest</em> Trust</div>
+          <nav><span class="on">Gifting</span></nav>
+          <div class="who">First Avenue · <b>Avery Chen</b></div>
+        </header>
+        <main class="wrap done">
+          <p class="kicker">Paid</p>
+          <h1>The cards are on their way.</h1>
+          <p class="intro" id="sent-copy"></p>
+          <div class="cards" id="sent-cards"></div>
+        </main>
+      </div>
+    </div>
+    <script>
+      const BASE = 3999;
+      const EXTRA = 999;
+      const seed = [
+        ["Jordan Lee", "jordan.lee@firstave.example", "Service award", "5 years", 1],
+        ["Priya Shah", "priya.shah@firstave.example", "Service award", "10 years", 5],
+        ["Sam Ortiz", "sam.ortiz@firstave.example", "Retirement", "15 years", 10],
+      ];
+      let cart = seed.map(row);
+
+      const money = (cents) =>
+        "$" + (cents / 100).toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const lineCents = (trees) => BASE + Math.max(0, trees - 1) * EXTRA;
+
+      function show(id) {
+        document.querySelectorAll(".screen").forEach((el) => el.classList.toggle("on", el.id === id));
+        document.querySelectorAll(".steps button").forEach((btn) => {
+          btn.setAttribute("aria-current", btn.dataset.go === id ? "step" : "false");
+        });
+      }
+
+      function render() {
+        const body = document.getElementById("cart-body");
+        const lines = document.getElementById("cart-lines");
+        body.replaceChildren();
+        lines.replaceChildren();
+        let trees = 0;
+        let cents = 0;
+        cart.forEach((row, index) => {
+          const [name, email, occasion, years, count] = row;
+          const price = lineCents(count);
+          trees += count;
+          cents += price;
+          const tr = document.createElement("tr");
+          tr.innerHTML =
+            "<td><b>" + name + "</b><small>" + email + "</small></td>" +
+            "<td>" + occasion + "<small>" + years + "</small></td>" +
+            '<td class="num">' + count + "</td>" +
+            '<td class="num">' + money(price) + "</td>" +
+            '<td class="num"><button class="x" type="button" data-remove="' + index + '">Remove</button></td>';
+          body.appendChild(tr);
+          const line = document.createElement("div");
+          line.className = "line";
+          line.innerHTML = "<span>" + name + "</span><span>" + money(price) + "</span>";
+          lines.appendChild(line);
+        });
+        const people = cart.length + (cart.length === 1 ? " person" : " people");
+        document.getElementById("cart-meta").textContent = people + " · " + trees + " trees";
+        document.getElementById("cart-total").textContent = money(cents);
+        document.getElementById("checkout").disabled = cart.length === 0;
+        document.getElementById("pay-total").textContent = money(cents);
+        document.getElementById("pay-meta").textContent =
+          "First Avenue · " + people + " · " + trees + " trees planted once";
+        const draftTrees = Math.max(1, Number(document.getElementById("trees").value) || 1);
+        document.getElementById("line-price").textContent =
+          "This card · " + money(lineCents(draftTrees)) + " · first tree $39.99, then $9.99";
+      }
+
+      document.getElementById("trees").addEventListener("input", render);
+      document.getElementById("add").addEventListener("click", () => {
+        const name = document.getElementById("name").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const trees = Math.max(1, Math.min(500, Number(document.getElementById("trees").value) || 1));
+        if (!name || !email.includes("@")) return;
+        cart.push([
+          name,
+          email,
+          document.getElementById("occasion").value,
+          document.getElementById("years").value,
+          trees,
+        ]);
+        render();
+      });
+      document.getElementById("cart-body").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-remove]");
+        if (!button) return;
+        cart.splice(Number(button.dataset.remove), 1);
+        render();
+      });
+      document.getElementById("checkout").addEventListener("click", () => show("pay"));
+      document.getElementById("confirm").addEventListener("click", () => {
+        const cards = document.getElementById("sent-cards");
+        cards.replaceChildren();
+        let trees = 0;
+        cart.forEach((row) => {
+          trees += row[4];
+          const card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML =
+            "<div><b>" + row[0] + "</b><small>" + row[2] + " · " + row[3] + " · " + row[4] +
+            (row[4] === 1 ? " tree" : " trees") + "</small></div><div class='pill'>Card and certificate</div>";
+          cards.appendChild(card);
+        });
+        document.getElementById("sent-copy").textContent =
+          "Avery paid once. " + cart.length + " people each get their own card and certificate. First Avenue's forest gains " +
+          trees + " trees, once. Avery gets one summary, not " + cart.length + " copies.";
+        show("sent");
+      });
+      document.querySelectorAll("[data-go]").forEach((button) => {
+        button.addEventListener("click", () => show(button.dataset.go));
+      });
+      render();
+    </script>
+  </body>
+</html>
