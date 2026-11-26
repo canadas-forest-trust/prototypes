@@ -97,7 +97,21 @@
   .sheet .to { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; margin: 0.2rem 0; }
   .cert { background: #f6f1ea; border: 1px solid #1b3330; padding: 1.25rem 1.2rem; min-height: 220px; }
   .cert .count { font-size: 2.4rem; line-height: 1; letter-spacing: -0.04em; font-weight: 700; margin: 0.2rem 0; }
-  .empty { color: var(--muted); margin: 0.5rem 0 0; }
+      .empty { color: var(--muted); margin: 0; }
+      .empty-box {
+        display: flex; flex-direction: column; align-items: flex-start; gap: 0.75rem;
+        border: 1px dashed var(--field); background: var(--inset); padding: 1.5rem 1rem;
+      }
+      .table-wrap { overflow-x: auto; border: 1px solid var(--hairline); background: var(--panel); }
+      .table-wrap th { background: var(--inset); }
+      .badge {
+        display: inline-block; background: #e7f2ea; color: var(--accent-strong);
+        font-size: 12px; font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 2px;
+      }
+      .link {
+        border: 0; background: transparent; color: var(--accent); padding: 0;
+        font-size: 12px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      }
   @media (max-width: 860px) {
     .grid, .previews { grid-template-columns: 1fr; }
     h1 { font-size: 2.2rem; }
@@ -283,40 +297,53 @@
       </sc-if>
 
       <sc-if value="{{ showRecent }}">
-        <sc-if value="{{ recentEmpty }}"><p class="empty">No gifts yet.</p></sc-if>
-        <sc-for list="{{ orders }}" as="order" hint-placeholder-count="1">
-          <section class="panel" style="margin-bottom:0.75rem">
-            <div class="row-actions" style="margin-top:0">
-              <div>
-                <b>{{ order.date }}</b>
-                <span class="sub">{{ order.meta }}</span>
-              </div>
-              <button class="ghost" type="button" onclick="{{ order.toggle }}">{{ order.toggleLabel }}</button>
-            </div>
-            <sc-if value="{{ order.open }}">
-              <table>
-                <thead>
-                  <tr>
+        <sc-if value="{{ recentEmpty }}">
+          <div class="empty-box">
+            <p class="empty">No gifts sent yet.</p>
+            <button class="add" type="button" onclick="{{ openSend }}">Send the first gift</button>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasRecent }}">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Occasion</th>
                   <th>Recipient</th>
-                  <sc-if value="{{ order.showYears }}"><th>Years</th></sc-if>
                   <th class="num">Trees</th>
-                  <th class="num">Price</th>
+                  <th>Status</th>
+                  <th>Certificate</th>
                 </tr>
-                </thead>
-                <tbody>
-                  <sc-for list="{{ order.people }}" as="row" hint-placeholder-count="2">
-                    <tr>
-                      <td><b>{{ row.name }}</b><small>{{ row.email }}</small></td>
-                      <sc-if value="{{ order.showYears }}"><td>{{ row.yearsText }}</td></sc-if>
-                      <td class="num">{{ row.treesLabel }}</td>
-                      <td class="num">{{ row.price }}</td>
-                    </tr>
-                  </sc-for>
-                </tbody>
-              </table>
-            </sc-if>
-          </section>
-        </sc-for>
+              </thead>
+              <tbody>
+                <sc-for list="{{ recentRows }}" as="row" hint-placeholder-count="2">
+                  <tr class="{{ row.rowClass }}">
+                    <td>{{ row.date }}</td>
+                    <td>{{ row.occasionText }}</td>
+                    <td>
+                      <b>{{ row.name }}</b>
+                      <sc-if value="{{ row.hasYears }}"><small>{{ row.yearsText }}</small></sc-if>
+                    </td>
+                    <td class="num">{{ row.trees }}</td>
+                    <td><span class="badge">{{ row.status }}</span></td>
+                    <td><button class="link" type="button" onclick="{{ row.viewCert }}">View certificate</button></td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+          <sc-if value="{{ hasRecentPreview }}">
+            <section class="cert" style="margin-top:1.25rem">
+              <p class="hint">Certificate</p>
+              <p class="sub">This certifies that</p>
+              <p class="to">{{ recentPreview.name }}</p>
+              <p class="count">{{ recentPreview.treesLabel }}</p>
+              <p class="sub">{{ recentPreview.detail }}</p>
+              <p class="sub">Gifted by Avery Chen · {{ recentPreview.date }}</p>
+            </section>
+          </sc-if>
+        </sc-if>
       </sc-if>
     </main>
   </sc-if>
@@ -370,7 +397,7 @@ class Component extends DCLogic {
       codeError: "",
       card: "",
       selectedId: 2,
-      openOrder: null,
+      recentId: null,
       paidPeople: [],
       paidCents: 0,
       people: [
@@ -378,7 +405,19 @@ class Component extends DCLogic {
         { id: 2, name: "Priya Shah", email: "priya.shah@firstave.example", years: "10", customYears: "", trees: 5, note: "Ten years with First Avenue." },
         { id: 3, name: "Sam Ortiz", email: "sam.ortiz@firstave.example", years: "15", customYears: "", trees: 10, note: "" },
       ],
-      orders: [],
+      orders: [
+        {
+          id: 100,
+          date: "Nov 12, 2026",
+          occasion: "service_award",
+          customLabel: "",
+          cents: lineCents(1) + lineCents(5),
+          people: [
+            { id: 101, name: "Maya Chen", email: "maya.chen@firstave.example", years: "5", customYears: "", trees: 1, note: "" },
+            { id: 102, name: "Omar Haddad", email: "omar.haddad@firstave.example", years: "10", customYears: "", trees: 5, note: "" },
+          ],
+        },
+      ],
     };
   }
 
@@ -529,21 +568,35 @@ class Component extends DCLogic {
     const subtotal = this.subtotalCents();
     const pay = this.payCents();
     const treeCount = s.people.reduce((sum, person) => sum + person.trees, 0);
-    const orders = s.orders.map((order) => {
-      const open = s.openOrder === order.id;
-      const count = order.people.reduce((sum, person) => sum + person.trees, 0);
+    const recentRows = [];
+    let recentPreview = null;
+    for (const order of s.orders) {
       const occasionText = this.occasionText(order.occasion, order.customLabel);
-      return {
-        date: order.date,
-        total: money(order.cents),
-        showYears: needsYears(order.occasion),
-        meta: occasionText + " · " + order.people.length + (order.people.length === 1 ? " person" : " people") + " · " + count + (count === 1 ? " tree" : " trees") + " · " + money(order.cents),
-        open,
-        toggleLabel: open ? "Hide" : "Show",
-        toggle: () => this.setState({ openOrder: open ? null : order.id }),
-        people: order.people.map((person) => this.viewPerson(person, order.occasion, order.customLabel)),
-      };
-    });
+      for (const person of order.people) {
+        const view = this.viewPerson(person, order.occasion, order.customLabel);
+        const id = order.id + "-" + person.id;
+        const row = {
+          date: order.date,
+          occasionText,
+          name: view.name,
+          yearsText: view.yearsText,
+          hasYears: !!view.yearsText,
+          trees: view.trees,
+          status: "Fulfilled",
+          rowClass: s.recentId === id ? "is-selected" : "",
+          viewCert: () => this.setState({ recentId: id }),
+        };
+        recentRows.push(row);
+        if (s.recentId === id) {
+          recentPreview = {
+            name: person.name,
+            detail: view.detail,
+            treesLabel: view.treesLabel,
+            date: order.date,
+          };
+        }
+      }
+    }
     return {
       showPay: s.screen === "pay",
       showHub: s.screen !== "pay",
@@ -593,8 +646,11 @@ class Component extends DCLogic {
       card: s.card,
       paidPeople: s.paidPeople,
       paidMeta: money(s.paidCents) + " · " + s.paidPeople.length + (s.paidPeople.length === 1 ? " person" : " people"),
-      orders,
-      recentEmpty: s.orders.length === 0,
+      recentRows,
+      hasRecent: recentRows.length > 0,
+      recentEmpty: recentRows.length === 0,
+      hasRecentPreview: !!recentPreview,
+      recentPreview: recentPreview || { name: "", detail: "", treesLabel: "", date: "" },
       setName: (e) => this.setName(e),
       setEmail: (e) => this.setEmail(e),
       setOccasion: (e) => this.setOccasion(e),
