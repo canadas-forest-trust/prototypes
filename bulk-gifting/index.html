@@ -60,6 +60,16 @@
   .pay { padding: 0.7rem 1.1rem; font-weight: 600; }
   .pay:disabled, .add:disabled { opacity: 0.45; cursor: not-allowed; }
   .grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.25rem; align-items: start; }
+  .composer { padding: 0; }
+  .occasion-bar {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem;
+    padding: 0.85rem 1.15rem; border-bottom: 1px solid var(--hairline);
+  }
+  .occasion-bar label { flex-direction: row; align-items: center; gap: 0.7rem; }
+  .occasion-bar label span { white-space: nowrap; }
+  .occasion-bar select, .occasion-bar input { width: 16rem; }
+  .composer .grid { padding: 1.1rem 1.15rem 1.2rem; }
+  .composer .summary { border-left: 1px solid var(--hairline); padding-left: 1.25rem; }
   .panel { background: var(--panel); border: 1px solid var(--hairline); padding: 1.1rem 1.15rem 1.2rem; }
   .panel h2 { margin: 0 0 0.85rem; font-size: 1.05rem; }
   label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 13px; color: var(--ink-soft); }
@@ -114,6 +124,7 @@
       }
   @media (max-width: 860px) {
     .grid, .previews { grid-template-columns: 1fr; }
+    .composer .summary { border-left: 0; padding-left: 0; border-top: 1px solid var(--hairline); padding-top: 1.15rem; }
     h1 { font-size: 2.2rem; }
     nav { display: none; }
   }
@@ -179,23 +190,24 @@
       </div>
 
       <sc-if value="{{ showForm }}">
-        <div class="panel" style="margin-bottom:1.25rem;max-width:420px">
-          <label><span>Occasion</span>
-            <select value="{{ occasion }}" onchange="{{ setOccasion }}">
-              <option value="memorial">Memorial</option>
-              <option value="new_child">Birth</option>
-              <option value="birthday">Birthday</option>
-              <option value="service_award">Service award</option>
-              <option value="retirement">Retirement</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-          <sc-if value="{{ showCustomOccasion }}">
-            <label style="margin-top:0.75rem"><span>Occasion label</span><input value="{{ customLabel }}" oninput="{{ setCustomLabel }}" /></label>
-          </sc-if>
-        </div>
-        <div class="grid">
-          <section class="panel">
+        <div class="panel composer">
+          <div class="occasion-bar">
+            <label><span>Occasion</span>
+              <select value="{{ occasion }}" onchange="{{ setOccasion }}">
+                <option value="memorial">Memorial</option>
+                <option value="new_child">Birth</option>
+                <option value="birthday">Birthday</option>
+                <option value="service_award">Service award</option>
+                <option value="retirement">Retirement</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <sc-if value="{{ showCustomOccasion }}">
+              <label><span>Occasion label</span><input value="{{ customLabel }}" oninput="{{ setCustomLabel }}" /></label>
+            </sc-if>
+          </div>
+          <div class="grid">
+            <section>
             <h2>Add a person</h2>
             <div class="fields">
               <label><span>Recipient name</span><input value="{{ name }}" oninput="{{ setName }}" /></label>
@@ -220,8 +232,8 @@
               <p class="hint">{{ draftHint }}</p>
               <button class="add" type="button" onclick="{{ addPerson }}" disabled="{{ cannotAdd }}">Add</button>
             </div>
-          </section>
-          <aside class="panel summary">
+            </section>
+          <aside class="summary">
             <h2>Total {{ cartTotal }}</h2>
             <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="3">
               <div class="line"><span>{{ line.name }}</span><span>{{ line.price }}</span></div>
@@ -229,6 +241,7 @@
             <div class="total"><span>{{ cartMeta }}</span><span>{{ cartTotal }}</span></div>
             <button class="pay" type="button" onclick="{{ goPay }}" disabled="{{ cannotPay }}" style="width:100%;margin-top:1rem">Pay</button>
           </aside>
+          </div>
         </div>
 
         <div class="panel" style="margin-top:1.25rem">
