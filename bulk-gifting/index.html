@@ -1,329 +1,223 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Bulk gifting cart · prototype</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --canvas: #f7f5ef;
-        --panel: #fffcf7;
-        --inset: #f3f0e8;
-        --ink: #17150f;
-        --ink-soft: #3a352b;
-        --muted: #8c8676;
-        --accent: #1b6a3e;
-        --accent-strong: #16482a;
-        --hairline: #e2ddd0;
-        --field: #d9d3c5;
-        --warning: #b46a3a;
-        --danger: #b4453a;
-        --font: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
-        --mono: "IBM Plex Mono", ui-monospace, monospace;
-      }
-      * { box-sizing: border-box; }
-      html, body { height: 100%; }
-      body {
-        margin: 0;
-        background: #e7e2d6;
-        color: var(--ink);
-        font-family: var(--font);
-        font-size: 15px;
-        line-height: 1.45;
-        -webkit-font-smoothing: antialiased;
-      }
-      button, input, select { font: inherit; color: inherit; }
-      button { cursor: pointer; }
-      button:focus-visible, input:focus-visible, select:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px;
-      }
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gifting</title>
+<script src="../ottawa-smart-forest-certificate/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; background: #e7e2d6; min-height: 100%; }
+  body { height: auto !important; }
+  #dc-root, #dc-root > .sc-host { height: auto !important; min-height: 100%; background: #f7f5ef; }
+  :root {
+    --canvas: #f7f5ef;
+    --panel: #fffcf7;
+    --inset: #f3f0e8;
+    --ink: #17150f;
+    --ink-soft: #3a352b;
+    --muted: #8c8676;
+    --accent: #1b6a3e;
+    --accent-strong: #16482a;
+    --hairline: #e2ddd0;
+    --field: #d9d3c5;
+    --font: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  .app { min-height: 100%; background: var(--canvas); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.45; }
+  .hub-bar {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 0.85rem 1.75rem; background: var(--panel); border-bottom: 1px solid var(--hairline);
+  }
+  .mark { font-weight: 700; letter-spacing: -0.03em; font-size: 15px; }
+  .mark em { font-style: normal; color: var(--accent); }
+  nav { display: flex; gap: 1.15rem; font-size: 14px; color: var(--ink-soft); }
+  nav .on { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--accent); padding-bottom: 0.15rem; }
+  .who { margin-left: auto; font-size: 13px; color: var(--muted); }
+  .who b { color: var(--ink); font-weight: 600; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  h1 { margin: 0; font-size: 3rem; line-height: 1; letter-spacing: -0.04em; font-weight: 700; }
+  .intro { max-width: 42rem; color: var(--ink-soft); margin: 0.8rem 0 0; }
+  .rule { height: 3px; background: var(--ink); border: 0; margin: 1.25rem 0 1.5rem; }
+  .tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; }
+  .tab, .pay, .ghost, .add {
+    border-radius: 2px; padding: 0.45rem 0.8rem; border: 1px solid var(--ink); background: transparent;
+  }
+  .tab.on, .pay, .add { background: var(--accent); color: #f7f5ef; border-color: var(--accent-strong); }
+  .pay { padding: 0.7rem 1.1rem; font-weight: 600; }
+  .pay:disabled, .add:disabled { opacity: 0.45; cursor: not-allowed; }
+  .grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.25rem; align-items: start; }
+  .panel { background: var(--panel); border: 1px solid var(--hairline); padding: 1.1rem 1.15rem 1.2rem; }
+  .panel h2 { margin: 0 0 0.85rem; font-size: 1.05rem; }
+  label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 13px; color: var(--ink-soft); }
+  label span { font-weight: 500; }
+  input, select, textarea {
+    background: #fff; border: 1px solid var(--field); padding: 0.5rem 0.6rem; border-radius: 2px; width: 100%;
+  }
+  textarea { min-height: 4.5rem; resize: vertical; }
+  .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .fields .wide { grid-column: 1 / -1; }
+  .row-actions { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 0.9rem; }
+  .hint { color: var(--muted); font-size: 13px; margin: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    text-align: left; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted); font-weight: 500; padding: 0.45rem 0.4rem; border-bottom: 1px solid var(--hairline);
+  }
+  td { padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
+  td small, .sub { display: block; color: var(--muted); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .trees { width: 4.5rem; text-align: right; }
+  tr.is-selected td { background: #e7f2ea; }
+  .x { border: 0; background: transparent; color: var(--muted); padding: 0; }
+  .summary .line, .summary .total { display: flex; justify-content: space-between; gap: 1rem; margin: 0.35rem 0; }
+  .summary .total { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 3px solid var(--ink); font-weight: 600; font-size: 1.15rem; }
+  .checkout { max-width: 480px; margin: 4rem auto; background: #fff; border-radius: 8px; box-shadow: 0 12px 40px rgba(23, 21, 15, 0.12); overflow: hidden; }
+  .checkout header { background: #0a2540; color: white; padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center; }
+  .checkout header b { font-weight: 600; }
+  .checkout .body { padding: 1.2rem 1.2rem 1.4rem; }
+  .checkout h2 { margin: 0 0 0.75rem; font-size: 1.8rem; letter-spacing: -0.03em; }
+  .err { color: #b4453a; font-size: 13px; margin: 0.35rem 0 0; }
+  .applied { font-family: var(--mono); font-size: 12px; color: var(--accent-strong); }
+  .previews { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.25rem; }
+  .sheet { background: #fff; border: 1px solid var(--hairline); min-height: 220px; padding: 1.1rem 1.15rem; }
+  .sheet .to { font-size: 1.35rem; font-weight: 600; letter-spacing: -0.03em; margin: 0.2rem 0; }
+  .cert { background: #f6f1ea; border: 1px solid #1b3330; padding: 1.25rem 1.2rem; min-height: 220px; }
+  .cert .count { font-size: 2.4rem; line-height: 1; letter-spacing: -0.04em; font-weight: 700; margin: 0.2rem 0; }
+  .empty { color: var(--muted); margin: 0.5rem 0 0; }
+  @media (max-width: 860px) {
+    .grid, .previews { grid-template-columns: 1fr; }
+    h1 { font-size: 2.2rem; }
+    nav { display: none; }
+  }
+</style>
+</helmet>
 
-      .stage {
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
-      .proto {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.55rem 1.25rem;
-        background: var(--ink);
-        color: #f7f5ef;
-        font-size: 13px;
-      }
-      .proto strong { font-weight: 600; }
-      .proto span { color: #c9c2b2; }
-      .steps { display: flex; gap: 0.35rem; margin-left: auto; }
-      .steps button {
-        border: 1px solid transparent;
-        background: transparent;
-        color: #c9c2b2;
-        border-radius: 999px;
-        padding: 0.25rem 0.7rem;
-        font-size: 12px;
-      }
-      .steps button[aria-current="step"] {
-        background: #f7f5ef;
-        color: var(--ink);
-      }
+<div class="app">
+  <sc-if value="{{ showHub }}">
+  <header class="hub-bar">
+    <div class="mark">Canada's <em>Forest</em> Trust</div>
+    <nav>
+      <span>Our Forest</span>
+      <span>Learning Centre</span>
+      <span>Marketing Assets</span>
+      <span>Showcase Your Impact</span>
+      <span class="on">Gifting</span>
+    </nav>
+    <div class="who">First Avenue · <b>Avery Chen</b></div>
+  </header>
+  </sc-if>
 
-      .app { flex: 1; background: var(--canvas); }
-      .hub-bar, .pay-bar {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        padding: 0.85rem 1.75rem;
-        background: var(--panel);
-        border-bottom: 1px solid var(--hairline);
-      }
-      .mark {
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        font-size: 15px;
-      }
-      .mark em { font-style: normal; color: var(--accent); }
-      nav { display: flex; gap: 1.15rem; font-size: 14px; color: var(--ink-soft); }
-      nav .on {
-        color: var(--ink);
-        font-weight: 600;
-        box-shadow: inset 0 -2px 0 var(--accent);
-        padding-bottom: 0.15rem;
-      }
-      .who { margin-left: auto; font-size: 13px; color: var(--muted); }
-      .who b { color: var(--ink); font-weight: 600; }
-
-      .wrap { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
-      .kicker {
-        font-family: var(--mono);
-        font-size: 11px;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin: 0 0 0.35rem;
-      }
-      h1 {
-        margin: 0;
-        font-size: 3rem;
-        line-height: 1;
-        letter-spacing: -0.04em;
-        font-weight: 700;
-      }
-      .intro { max-width: 42rem; color: var(--ink-soft); margin: 0.8rem 0 0; }
-      .rule { height: 3px; background: var(--ink); border: 0; margin: 1.25rem 0 1.5rem; }
-
-      .tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; }
-      .tab, .pay, .ghost, .add {
-        border-radius: 2px;
-        padding: 0.45rem 0.8rem;
-        border: 1px solid var(--ink);
-      }
-      .tab { background: transparent; }
-      .tab.on, .pay, .add { background: var(--accent); color: #f7f5ef; border-color: var(--accent-strong); }
-      .ghost { background: transparent; }
-      .pay { padding: 0.7rem 1.1rem; font-weight: 600; }
-      .pay:disabled, .add:disabled { opacity: 0.45; cursor: not-allowed; }
-
-      .grid { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 1.25rem; align-items: start; }
-      .panel {
-        background: var(--panel);
-        border: 1px solid var(--hairline);
-        padding: 1.1rem 1.15rem 1.2rem;
-      }
-      .panel h2 { margin: 0 0 0.85rem; font-size: 1.05rem; }
-      label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 13px; color: var(--ink-soft); }
-      label span { font-weight: 500; }
-      input, select {
-        background: #fff;
-        border: 1px solid var(--field);
-        padding: 0.5rem 0.6rem;
-        border-radius: 2px;
-      }
-      .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-      .fields .wide { grid-column: 1 / -1; }
-      .row-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 0.9rem; }
-      .hint { color: var(--muted); font-size: 13px; margin: 0; }
-
-      table { width: 100%; border-collapse: collapse; font-size: 14px; }
-      th {
-        text-align: left;
-        font-size: 11px;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--muted);
-        font-weight: 500;
-        padding: 0.45rem 0.4rem;
-        border-bottom: 1px solid var(--hairline);
-      }
-      td { padding: 0.7rem 0.4rem; border-bottom: 1px solid var(--hairline); vertical-align: top; }
-      td small { display: block; color: var(--muted); }
-      .num { text-align: right; font-variant-numeric: tabular-nums; }
-      .x {
-        border: 0;
-        background: transparent;
-        color: var(--muted);
-        padding: 0;
-      }
-
-      .summary .line, .summary .total {
-        display: flex;
-        justify-content: space-between;
-        gap: 1rem;
-        margin: 0.35rem 0;
-      }
-      .summary .total {
-        margin-top: 0.8rem;
-        padding-top: 0.8rem;
-        border-top: 3px solid var(--ink);
-        font-weight: 600;
-        font-size: 1.15rem;
-      }
-      .note {
-        background: var(--inset);
-        border: 1px dashed var(--field);
-        padding: 0.75rem 0.8rem;
-        font-size: 13px;
-        color: var(--ink-soft);
-        margin: 0 0 0.9rem;
-      }
-
-      .checkout {
-        max-width: 440px;
-        margin: 4rem auto;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 12px 40px rgba(23, 21, 15, 0.12);
-        overflow: hidden;
-      }
-      .checkout header {
-        background: #0a2540;
-        color: white;
-        padding: 1rem 1.2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .checkout header b { font-weight: 600; letter-spacing: -0.02em; }
-      .checkout .body { padding: 1.2rem 1.2rem 1.4rem; }
-      .checkout h2 { margin: 0 0 0.25rem; font-size: 1.35rem; }
-      .muted { color: var(--muted); font-size: 13px; }
-      .cardbox {
-        margin: 1rem 0;
-        border: 1px solid var(--hairline);
-        border-radius: 6px;
-        padding: 0.75rem;
-        color: var(--muted);
-        font-family: var(--mono);
-        font-size: 13px;
-      }
-
-      .done { max-width: 720px; }
-      .done h1 { font-size: 2.4rem; }
-      .cards { display: grid; gap: 0.6rem; margin-top: 1.25rem; }
-      .card {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 0.4rem 1rem;
-        background: var(--panel);
-        border: 1px solid var(--hairline);
-        padding: 0.85rem 1rem;
-      }
-      .card b { font-weight: 600; }
-      .pill {
-        font-family: var(--mono);
-        font-size: 11px;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-        align-self: center;
-        color: var(--accent-strong);
-      }
-      .screen { display: none; }
-      .screen.on { display: block; }
-      @media (max-width: 860px) {
-        .grid { grid-template-columns: 1fr; }
-        h1 { font-size: 2.2rem; }
-        nav { display: none; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="stage">
-      <div class="proto">
-        <strong>Prototype</strong>
-        <span>Gifting cart. One payment, one card per person. Not built.</span>
-        <div class="steps" role="tablist" aria-label="Prototype screens">
-          <button type="button" data-go="cart" aria-current="step">Cart</button>
-          <button type="button" data-go="pay">Pay once</button>
-          <button type="button" data-go="sent">Sent</button>
+  <sc-if value="{{ showPay }}">
+    <div class="checkout">
+      <header><b>Stripe</b><span>Canada's Forest Trust</span></header>
+      <div class="body">
+        <h2>{{ payTotal }}</h2>
+        <div class="summary">
+          <sc-for list="{{ payLines }}" as="line" hint-placeholder-count="3">
+            <div class="line"><span>{{ line.name }}</span><span>{{ line.price }}</span></div>
+          </sc-for>
+          <div class="line"><span>Subtotal</span><span>{{ subtotal }}</span></div>
+          <sc-if value="{{ showDiscount }}">
+            <div class="line"><span>{{ codeApplied }}</span><span>{{ discount }}</span></div>
+          </sc-if>
+        </div>
+        <label style="margin-top:1rem">Promotion code
+          <input value="{{ code }}" oninput="{{ setCode }}" />
+        </label>
+        <div class="row-actions">
+          <p class="hint">First tree $39.99 · each additional tree $9.99, per person.</p>
+          <button class="ghost" type="button" onclick="{{ applyCode }}">Apply</button>
+        </div>
+        <sc-if value="{{ showCodeError }}"><p class="err">{{ codeError }}</p></sc-if>
+        <label style="margin-top:0.9rem">Card number
+          <input value="{{ card }}" oninput="{{ setCard }}" inputmode="numeric" />
+        </label>
+        <div class="row-actions">
+          <button class="ghost" type="button" onclick="{{ backToCart }}">Back</button>
+          <button class="pay" type="button" onclick="{{ confirmPay }}">Pay {{ payTotal }}</button>
         </div>
       </div>
+    </div>
+  </sc-if>
 
-      <div id="cart" class="screen app on">
-        <header class="hub-bar">
-          <div class="mark">Canada's <em>Forest</em> Trust</div>
-          <nav>
-            <span>Our Forest</span>
-            <span>Learning Centre</span>
-            <span>Marketing Assets</span>
-            <span>Showcase Your Impact</span>
-            <span class="on">Gifting</span>
-          </nav>
-          <div class="who">First Avenue · <b>Avery Chen</b></div>
-        </header>
-        <main class="wrap">
-          <p class="kicker">Gifting</p>
-          <h1>Gifting</h1>
-          <p class="intro">Gift trees for a service award, birthday, or retirement. Add everyone to the cart and pay once. Each person receives a personalized digital card and certificate.</p>
-          <hr class="rule" />
-          <div class="tabs">
-            <button class="tab on" type="button">Send a gift</button>
-            <button class="tab" type="button">Recent gifts</button>
-          </div>
-          <div class="grid">
-            <section class="panel">
-              <h2>Add a person</h2>
-              <div class="fields">
-                <label>Name<input id="name" value="Noah Patel" /></label>
-                <label>Email<input id="email" type="email" value="noah.patel@firstave.example" /></label>
-                <label>Occasion
-                  <select id="occasion">
-                    <option value="Service award" selected>Service award</option>
-                    <option>Birthday</option>
-                    <option>Retirement</option>
-                    <option>Birth</option>
-                    <option>Memorial</option>
+  <sc-if value="{{ showHub }}">
+    <main class="wrap">
+      <h1>Gifting</h1>
+      <p class="intro">Gift trees for a memorial, birthday, birth, service award, or retirement. The recipient receives a personalized digital card and certificate.</p>
+      <hr class="rule" />
+      <div class="tabs">
+        <button type="button" class="{{ sendTabClass }}" onclick="{{ openSend }}">Send a gift</button>
+        <button type="button" class="{{ recentTabClass }}" onclick="{{ openRecent }}">Recent gifts</button>
+      </div>
+
+      <sc-if value="{{ showForm }}">
+        <div class="grid">
+          <section class="panel">
+            <h2>Add a person</h2>
+            <div class="fields">
+              <label><span>Recipient name</span><input value="{{ name }}" oninput="{{ setName }}" /></label>
+              <label><span>Recipient email</span><input type="email" value="{{ email }}" oninput="{{ setEmail }}" /></label>
+              <label><span>Occasion</span>
+                <select value="{{ occasion }}" onchange="{{ setOccasion }}">
+                  <option value="memorial">Memorial</option>
+                  <option value="new_child">Birth</option>
+                  <option value="birthday">Birthday</option>
+                  <option value="service_award">Service award</option>
+                  <option value="retirement">Retirement</option>
+                  <option value="other">Other</option>
+                </select>
+              </label>
+              <sc-if value="{{ showCustomOccasion }}">
+                <label><span>Occasion label</span><input value="{{ customLabel }}" oninput="{{ setCustomLabel }}" /></label>
+              </sc-if>
+              <sc-if value="{{ showYears }}">
+                <label><span>Years of service</span>
+                  <select value="{{ years }}" onchange="{{ setYears }}">
+                    <option value="5">5 years</option>
+                    <option value="10">10 years</option>
+                    <option value="15">15 years</option>
+                    <option value="other">Other</option>
                   </select>
                 </label>
-                <label>Years
-                  <select id="years">
-                    <option>5 years</option>
-                    <option selected>10 years</option>
-                    <option>15 years</option>
-                  </select>
-                </label>
-                <label>Trees<input id="trees" type="number" min="1" max="500" value="5" /></label>
-              </div>
-              <div class="row-actions">
-                <p class="hint" id="line-price"></p>
-                <button class="add" type="button" id="add">Add to cart</button>
-              </div>
-            </section>
-            <aside class="panel summary">
-              <h2>Cart</h2>
-              <p class="note">One Stripe payment. The forest is credited once, for every tree in the cart.</p>
-              <div id="cart-lines"></div>
-              <div class="total"><span id="cart-meta">0 people</span><span id="cart-total">$0.00</span></div>
-              <button class="pay" type="button" id="checkout" style="width:100%; margin-top: 1rem;">Pay once</button>
-            </aside>
-          </div>
-          <div class="panel" style="margin-top: 1.25rem;">
+              </sc-if>
+              <sc-if value="{{ showCustomYears }}">
+                <label><span>Years</span><input value="{{ customYears }}" oninput="{{ setCustomYears }}" /></label>
+              </sc-if>
+              <label><span>Trees</span><input type="number" min="1" max="500" value="{{ trees }}" oninput="{{ setTreesDraft }}" /></label>
+              <label class="wide"><span>Card note</span><textarea value="{{ note }}" oninput="{{ setNoteDraft }}"></textarea></label>
+            </div>
+            <div class="row-actions">
+              <p class="hint">{{ draftHint }}</p>
+              <button class="add" type="button" onclick="{{ addPerson }}" disabled="{{ cannotAdd }}">Add</button>
+            </div>
+          </section>
+          <aside class="panel summary">
+            <h2>Total {{ cartTotal }}</h2>
+            <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="3">
+              <div class="line"><span>{{ line.name }}</span><span>{{ line.price }}</span></div>
+            </sc-for>
+            <div class="total"><span>{{ cartMeta }}</span><span>{{ cartTotal }}</span></div>
+            <button class="pay" type="button" onclick="{{ goPay }}" disabled="{{ cannotPay }}" style="width:100%;margin-top:1rem">Pay</button>
+          </aside>
+        </div>
+
+        <div class="panel" style="margin-top:1.25rem">
+          <sc-if value="{{ cartEmpty }}"><p class="empty">No one added yet.</p></sc-if>
+          <sc-if value="{{ hasPeople }}">
             <table>
               <thead>
                 <tr>
@@ -334,145 +228,388 @@
                   <th></th>
                 </tr>
               </thead>
-              <tbody id="cart-body"></tbody>
+              <tbody>
+                <sc-for list="{{ people }}" as="row" hint-placeholder-count="3">
+                  <tr class="{{ row.rowClass }}" onclick="{{ row.select }}">
+                    <td><b>{{ row.name }}</b><small>{{ row.email }}</small></td>
+                    <td>{{ row.occasionText }}<small>{{ row.yearsText }}</small></td>
+                    <td class="num"><input class="trees" type="number" min="1" max="500" value="{{ row.trees }}" oninput="{{ row.setTrees }}" onclick="{{ row.stop }}" /></td>
+                    <td class="num">{{ row.price }}</td>
+                    <td class="num"><button class="x" type="button" onclick="{{ row.remove }}">Remove</button></td>
+                  </tr>
+                </sc-for>
+              </tbody>
             </table>
-          </div>
-        </main>
-      </div>
-
-      <div id="pay" class="screen">
-        <div class="checkout">
-          <header><b>Stripe</b><span>Canada's Forest Trust</span></header>
-          <div class="body">
-            <p class="kicker">One payment</p>
-            <h2 id="pay-total">$0.00</h2>
-            <p class="muted" id="pay-meta">First Avenue · service awards</p>
-            <div class="cardbox">Card · Avery Chen ·•••• 4242</div>
-            <p class="hint">A promotion code can be entered here. Andrew creates it in Stripe.</p>
-            <div class="row-actions">
-              <button class="ghost" type="button" data-go="cart">Back to cart</button>
-              <button class="pay" type="button" id="confirm">Pay</button>
-            </div>
-          </div>
+          </sc-if>
         </div>
-      </div>
 
-      <div id="sent" class="screen app">
-        <header class="hub-bar">
-          <div class="mark">Canada's <em>Forest</em> Trust</div>
-          <nav><span class="on">Gifting</span></nav>
-          <div class="who">First Avenue · <b>Avery Chen</b></div>
-        </header>
-        <main class="wrap done">
-          <p class="kicker">Paid</p>
-          <h1>The cards are on their way.</h1>
-          <p class="intro" id="sent-copy"></p>
-          <div class="cards" id="sent-cards"></div>
-        </main>
-      </div>
-    </div>
-    <script>
-      const BASE = 3999;
-      const EXTRA = 999;
-      const seed = [
-        ["Jordan Lee", "jordan.lee@firstave.example", "Service award", "5 years", 1],
-        ["Priya Shah", "priya.shah@firstave.example", "Service award", "10 years", 5],
-        ["Sam Ortiz", "sam.ortiz@firstave.example", "Retirement", "15 years", 10],
-      ];
-      let cart = seed.map(row);
+        <sc-if value="{{ hasPreview }}">
+          <div class="previews">
+            <section class="sheet">
+              <p class="hint">Digital card</p>
+              <p class="to">{{ preview.to }}</p>
+              <p class="sub">From Avery Chen · {{ preview.detail }}</p>
+              <p>{{ preview.note }}</p>
+            </section>
+            <section class="cert">
+              <p class="hint">Certificate</p>
+              <p class="sub">This certifies that</p>
+              <p class="to">{{ preview.name }}</p>
+              <p class="count">{{ preview.treesLabel }}</p>
+              <p class="sub">{{ preview.detail }}</p>
+              <p class="sub">Gifted by Avery Chen · {{ today }}</p>
+            </section>
+          </div>
+        </sc-if>
+      </sc-if>
 
-      const money = (cents) =>
-        "$" + (cents / 100).toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      const lineCents = (trees) => BASE + Math.max(0, trees - 1) * EXTRA;
+      <sc-if value="{{ showPaid }}">
+        <h2>Thank you</h2>
+        <p class="intro">Your gift is being processed. The certificate may take a minute.</p>
+        <div class="cards" style="display:grid;gap:0.6rem;margin-top:1.25rem">
+          <sc-for list="{{ paidPeople }}" as="row" hint-placeholder-count="3">
+            <article class="panel">
+              <b>{{ row.name }}</b>
+              <span class="sub">{{ row.detail }} · {{ row.treesLabel }} · {{ row.price }}</span>
+            </article>
+          </sc-for>
+        </div>
+        <div class="row-actions">
+          <p class="hint">{{ paidMeta }}</p>
+          <button class="add" type="button" onclick="{{ sendAnother }}">Send another gift</button>
+        </div>
+      </sc-if>
 
-      function show(id) {
-        document.querySelectorAll(".screen").forEach((el) => el.classList.toggle("on", el.id === id));
-        document.querySelectorAll(".steps button").forEach((btn) => {
-          btn.setAttribute("aria-current", btn.dataset.go === id ? "step" : "false");
+      <sc-if value="{{ showRecent }}">
+        <sc-if value="{{ recentEmpty }}"><p class="empty">No gifts yet.</p></sc-if>
+        <sc-for list="{{ orders }}" as="order" hint-placeholder-count="1">
+          <section class="panel" style="margin-bottom:0.75rem">
+            <div class="row-actions" style="margin-top:0">
+              <div>
+                <b>{{ order.date }}</b>
+                <span class="sub">{{ order.meta }} · {{ order.total }}</span>
+              </div>
+              <button class="ghost" type="button" onclick="{{ order.toggle }}">{{ order.toggleLabel }}</button>
+            </div>
+            <sc-if value="{{ order.open }}">
+              <table>
+                <thead>
+                  <tr><th>Recipient</th><th>Occasion</th><th class="num">Trees</th><th class="num">Price</th></tr>
+                </thead>
+                <tbody>
+                  <sc-for list="{{ order.people }}" as="row" hint-placeholder-count="2">
+                    <tr>
+                      <td><b>{{ row.name }}</b><small>{{ row.email }}</small></td>
+                      <td>{{ row.detail }}</td>
+                      <td class="num">{{ row.treesLabel }}</td>
+                      <td class="num">{{ row.price }}</td>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </sc-if>
+          </section>
+        </sc-for>
+      </sc-if>
+    </main>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const BASE = 3999;
+const EXTRA = 999;
+const OCCASIONS = {
+  memorial: "Memorial",
+  new_child: "Birth",
+  birthday: "Birthday",
+  service_award: "Service award",
+  retirement: "Retirement",
+  other: "Other",
+};
+
+function money(cents) {
+  return "$" + (cents / 100).toLocaleString("en-CA", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+function lineCents(trees) {
+  const n = Math.max(1, Number(trees) || 1);
+  return BASE + (n - 1) * EXTRA;
+}
+function needsYears(occasion) {
+  return occasion === "service_award" || occasion === "retirement";
+}
+function clampTrees(value) {
+  const n = Math.round(Number(value));
+  if (!Number.isFinite(n)) return 1;
+  return Math.max(1, Math.min(500, n));
+}
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.seq = 3;
+    this.state = {
+      screen: "cart",
+      tab: "send",
+      name: "",
+      email: "",
+      occasion: "service_award",
+      customLabel: "",
+      years: "10",
+      customYears: "",
+      trees: "5",
+      note: "",
+      code: "",
+      codeApplied: "",
+      codeError: "",
+      card: "",
+      selectedId: 2,
+      openOrder: null,
+      paidPeople: [],
+      paidCents: 0,
+      people: [
+        { id: 1, name: "Jordan Lee", email: "jordan.lee@firstave.example", occasion: "service_award", customLabel: "", years: "5", customYears: "", trees: 1, note: "" },
+        { id: 2, name: "Priya Shah", email: "priya.shah@firstave.example", occasion: "service_award", customLabel: "", years: "10", customYears: "", trees: 5, note: "Ten years with First Avenue." },
+        { id: 3, name: "Sam Ortiz", email: "sam.ortiz@firstave.example", occasion: "retirement", customLabel: "", years: "15", customYears: "", trees: 10, note: "" },
+      ],
+      orders: [],
+    };
+  }
+
+  setName(e) { this.setState({ name: e.target.value }); }
+  setEmail(e) { this.setState({ email: e.target.value }); }
+  setOccasion(e) { this.setState({ occasion: e.target.value }); }
+  setCustomLabel(e) { this.setState({ customLabel: e.target.value }); }
+  setYears(e) { this.setState({ years: e.target.value }); }
+  setCustomYears(e) { this.setState({ customYears: e.target.value }); }
+  setTreesDraft(e) { this.setState({ trees: e.target.value }); }
+  setNoteDraft(e) { this.setState({ note: e.target.value }); }
+  setCode(e) { this.setState({ code: e.target.value, codeError: "" }); }
+  setCard(e) { this.setState({ card: e.target.value }); }
+  showSend() { this.setState({ tab: "send" }); }
+  showRecent() { this.setState({ tab: "recent" }); }
+  backToCart() { this.setState({ screen: "cart" }); }
+  stop(e) { e.stopPropagation(); }
+
+  yearsLabel(person) {
+    if (!needsYears(person.occasion)) return "";
+    if (person.years === "other") return (person.customYears || "Other") + " years";
+    return person.years + " years";
+  }
+
+  occasionLabel(person) {
+    if (person.occasion === "other") return person.customLabel.trim() || "Other";
+    return OCCASIONS[person.occasion] || person.occasion;
+  }
+
+  detail(person) {
+    const years = this.yearsLabel(person);
+    const occasion = this.occasionLabel(person);
+    return years ? occasion + " · " + years : occasion;
+  }
+
+  viewPerson(person) {
+    const selected = this.state.selectedId;
+    return {
+      name: person.name,
+      email: person.email,
+      trees: String(person.trees),
+      treesLabel: person.trees === 1 ? "1 tree" : person.trees + " trees",
+      price: money(lineCents(person.trees)),
+      occasionText: this.occasionLabel(person),
+      yearsText: this.yearsLabel(person),
+      detail: this.detail(person),
+      rowClass: person.id === selected ? "is-selected" : "",
+      select: () => this.setState({ selectedId: person.id }),
+      stop: (e) => e.stopPropagation(),
+      setTrees: (e) => {
+        e.stopPropagation();
+        const trees = clampTrees(e.target.value);
+        this.setState({
+          people: this.state.people.map((p) => p.id === person.id ? { ...p, trees } : p),
         });
-      }
+      },
+      remove: (e) => {
+        e.stopPropagation();
+        const people = this.state.people.filter((p) => p.id !== person.id);
+        const selectedId = this.state.selectedId === person.id ? (people[0] ? people[0].id : null) : this.state.selectedId;
+        this.setState({ people, selectedId });
+      },
+    };
+  }
 
-      function render() {
-        const body = document.getElementById("cart-body");
-        const lines = document.getElementById("cart-lines");
-        body.replaceChildren();
-        lines.replaceChildren();
-        let trees = 0;
-        let cents = 0;
-        cart.forEach((row, index) => {
-          const [name, email, occasion, years, count] = row;
-          const price = lineCents(count);
-          trees += count;
-          cents += price;
-          const tr = document.createElement("tr");
-          tr.innerHTML =
-            "<td><b>" + name + "</b><small>" + email + "</small></td>" +
-            "<td>" + occasion + "<small>" + years + "</small></td>" +
-            '<td class="num">' + count + "</td>" +
-            '<td class="num">' + money(price) + "</td>" +
-            '<td class="num"><button class="x" type="button" data-remove="' + index + '">Remove</button></td>';
-          body.appendChild(tr);
-          const line = document.createElement("div");
-          line.className = "line";
-          line.innerHTML = "<span>" + name + "</span><span>" + money(price) + "</span>";
-          lines.appendChild(line);
-        });
-        const people = cart.length + (cart.length === 1 ? " person" : " people");
-        document.getElementById("cart-meta").textContent = people + " · " + trees + " trees";
-        document.getElementById("cart-total").textContent = money(cents);
-        document.getElementById("checkout").disabled = cart.length === 0;
-        document.getElementById("pay-total").textContent = money(cents);
-        document.getElementById("pay-meta").textContent =
-          "First Avenue · " + people + " · " + trees + " trees planted once";
-        const draftTrees = Math.max(1, Number(document.getElementById("trees").value) || 1);
-        document.getElementById("line-price").textContent =
-          "This card · " + money(lineCents(draftTrees)) + " · first tree $39.99, then $9.99";
-      }
+  subtotalCents() {
+    return this.state.people.reduce((sum, person) => sum + lineCents(person.trees), 0);
+  }
 
-      document.getElementById("trees").addEventListener("input", render);
-      document.getElementById("add").addEventListener("click", () => {
-        const name = document.getElementById("name").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const trees = Math.max(1, Math.min(500, Number(document.getElementById("trees").value) || 1));
-        if (!name || !email.includes("@")) return;
-        cart.push([
-          name,
-          email,
-          document.getElementById("occasion").value,
-          document.getElementById("years").value,
-          trees,
-        ]);
-        render();
-      });
-      document.getElementById("cart-body").addEventListener("click", (event) => {
-        const button = event.target.closest("[data-remove]");
-        if (!button) return;
-        cart.splice(Number(button.dataset.remove), 1);
-        render();
-      });
-      document.getElementById("checkout").addEventListener("click", () => show("pay"));
-      document.getElementById("confirm").addEventListener("click", () => {
-        const cards = document.getElementById("sent-cards");
-        cards.replaceChildren();
-        let trees = 0;
-        cart.forEach((row) => {
-          trees += row[4];
-          const card = document.createElement("article");
-          card.className = "card";
-          card.innerHTML =
-            "<div><b>" + row[0] + "</b><small>" + row[2] + " · " + row[3] + " · " + row[4] +
-            (row[4] === 1 ? " tree" : " trees") + "</small></div><div class='pill'>Card and certificate</div>";
-          cards.appendChild(card);
-        });
-        document.getElementById("sent-copy").textContent =
-          "Avery paid once. " + cart.length + " people each get their own card and certificate. First Avenue's forest gains " +
-          trees + " trees, once. Avery gets one summary, not " + cart.length + " copies.";
-        show("sent");
-      });
-      document.querySelectorAll("[data-go]").forEach((button) => {
-        button.addEventListener("click", () => show(button.dataset.go));
-      });
-      render();
-    </script>
-  </body>
+  payCents() {
+    return this.state.codeApplied ? 0 : this.subtotalCents();
+  }
+
+  addPerson() {
+    const name = this.state.name.trim();
+    const email = this.state.email.trim();
+    if (!name || !email.includes("@")) return;
+    if (this.state.occasion === "other" && !this.state.customLabel.trim()) return;
+    if (needsYears(this.state.occasion) && this.state.years === "other" && !this.state.customYears.trim()) return;
+    const person = {
+      id: ++this.seq,
+      name,
+      email,
+      occasion: this.state.occasion,
+      customLabel: this.state.customLabel,
+      years: this.state.years,
+      customYears: this.state.customYears,
+      trees: clampTrees(this.state.trees),
+      note: this.state.note.trim(),
+    };
+    this.setState({
+      people: this.state.people.concat(person),
+      selectedId: person.id,
+      name: "",
+      email: "",
+      note: "",
+    });
+  }
+
+  goPay() {
+    if (!this.state.people.length) return;
+    this.setState({ screen: "pay", code: "", codeApplied: "", codeError: "" });
+  }
+
+  applyCode() {
+    const code = this.state.code.trim();
+    if (!code) {
+      this.setState({ codeApplied: "", codeError: "" });
+      return;
+    }
+    if (code.toUpperCase() === "FIRST5") {
+      this.setState({ codeApplied: "FIRST5", codeError: "" });
+      return;
+    }
+    this.setState({ codeApplied: "", codeError: "No code by that name." });
+  }
+
+  confirmPay() {
+    const people = this.state.people.map((person) => this.viewPerson(person));
+    const cents = this.payCents();
+    const order = {
+      id: ++this.seq,
+      date: new Date().toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }),
+      people: this.state.people.map((person) => ({ ...person })),
+      cents,
+    };
+    this.setState({
+      screen: "paid",
+      tab: "send",
+      orders: [order].concat(this.state.orders),
+      openOrder: order.id,
+      paidPeople: people,
+      paidCents: cents,
+      people: [],
+      selectedId: null,
+      code: "",
+      codeApplied: "",
+      codeError: "",
+    });
+  }
+
+  sendAnother() {
+    this.setState({ screen: "cart", tab: "send", paidPeople: [], paidCents: 0 });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const people = s.people.map((person) => this.viewPerson(person));
+    const selected = s.people.find((person) => person.id === s.selectedId) || null;
+    const trees = clampTrees(s.trees);
+    const subtotal = this.subtotalCents();
+    const pay = this.payCents();
+    const treeCount = s.people.reduce((sum, person) => sum + person.trees, 0);
+    const orders = s.orders.map((order) => {
+      const open = s.openOrder === order.id;
+      const count = order.people.reduce((sum, person) => sum + person.trees, 0);
+      return {
+        date: order.date,
+        total: money(order.cents),
+        meta: order.people.length + (order.people.length === 1 ? " person" : " people") + " · " + count + (count === 1 ? " tree" : " trees"),
+        open,
+        toggleLabel: open ? "Hide" : "Show",
+        toggle: () => this.setState({ openOrder: open ? null : order.id }),
+        people: order.people.map((person) => this.viewPerson(person)),
+      };
+    });
+    return {
+      showPay: s.screen === "pay",
+      showHub: s.screen !== "pay",
+      showForm: s.tab === "send" && s.screen === "cart",
+      showPaid: s.tab === "send" && s.screen === "paid",
+      showRecent: s.tab === "recent",
+      sendTabClass: s.tab === "send" ? "tab on" : "tab",
+      recentTabClass: s.tab === "recent" ? "tab on" : "tab",
+      name: s.name,
+      email: s.email,
+      occasion: s.occasion,
+      customLabel: s.customLabel,
+      years: s.years,
+      customYears: s.customYears,
+      trees: s.trees,
+      note: s.note,
+      showYears: needsYears(s.occasion),
+      showCustomYears: needsYears(s.occasion) && s.years === "other",
+      showCustomOccasion: s.occasion === "other",
+      draftHint: money(lineCents(trees)) + " · first tree $39.99, then $9.99",
+      cannotAdd: !s.name.trim() || !s.email.includes("@") || (s.occasion === "other" && !s.customLabel.trim()) || (needsYears(s.occasion) && s.years === "other" && !s.customYears.trim()),
+      cannotPay: s.people.length === 0,
+      cartEmpty: s.people.length === 0,
+      hasPeople: s.people.length > 0,
+      people,
+      cartLines: people.map((person) => ({ name: person.name, price: person.price })),
+      cartTotal: money(subtotal),
+      cartMeta: s.people.length + (s.people.length === 1 ? " person" : " people") + " · " + treeCount + (treeCount === 1 ? " tree" : " trees"),
+      hasPreview: !!selected,
+      preview: selected ? {
+        name: selected.name,
+        to: "To " + selected.name,
+        detail: this.detail(selected),
+        note: selected.note || "The digital card note will appear here.",
+        treesLabel: selected.trees === 1 ? "1 tree" : selected.trees + " trees",
+      } : { name: "", to: "", detail: "", note: "", treesLabel: "" },
+      today: new Date().toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }),
+      payLines: people.map((person) => ({ name: person.name, price: person.price })),
+      subtotal: money(subtotal),
+      payTotal: money(pay),
+      discount: "−" + money(subtotal),
+      showDiscount: !!s.codeApplied,
+      code: s.code,
+      codeApplied: s.codeApplied,
+      codeError: s.codeError,
+      showCodeError: !!s.codeError,
+      card: s.card,
+      paidPeople: s.paidPeople,
+      paidMeta: money(s.paidCents) + " · " + s.paidPeople.length + (s.paidPeople.length === 1 ? " person" : " people"),
+      orders,
+      recentEmpty: s.orders.length === 0,
+      setName: (e) => this.setName(e),
+      setEmail: (e) => this.setEmail(e),
+      setOccasion: (e) => this.setOccasion(e),
+      setCustomLabel: (e) => this.setCustomLabel(e),
+      setYears: (e) => this.setYears(e),
+      setCustomYears: (e) => this.setCustomYears(e),
+      setTreesDraft: (e) => this.setTreesDraft(e),
+      setNoteDraft: (e) => this.setNoteDraft(e),
+      setCode: (e) => this.setCode(e),
+      setCard: (e) => this.setCard(e),
+      openSend: () => this.showSend(),
+      openRecent: () => this.showRecent(),
+      addPerson: () => this.addPerson(),
+      goPay: () => this.goPay(),
+      backToCart: () => this.backToCart(),
+      applyCode: () => this.applyCode(),
+      confirmPay: () => this.confirmPay(),
+      sendAnother: () => this.sendAnother(),
+    };
+  }
+}
+</script>
+</body>
 </html>
