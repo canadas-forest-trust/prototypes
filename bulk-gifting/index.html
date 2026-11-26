@@ -165,25 +165,27 @@
       </div>
 
       <sc-if value="{{ showForm }}">
+        <div class="panel" style="margin-bottom:1.25rem;max-width:420px">
+          <label><span>Occasion</span>
+            <select value="{{ occasion }}" onchange="{{ setOccasion }}">
+              <option value="memorial">Memorial</option>
+              <option value="new_child">Birth</option>
+              <option value="birthday">Birthday</option>
+              <option value="service_award">Service award</option>
+              <option value="retirement">Retirement</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <sc-if value="{{ showCustomOccasion }}">
+            <label style="margin-top:0.75rem"><span>Occasion label</span><input value="{{ customLabel }}" oninput="{{ setCustomLabel }}" /></label>
+          </sc-if>
+        </div>
         <div class="grid">
           <section class="panel">
             <h2>Add a person</h2>
             <div class="fields">
               <label><span>Recipient name</span><input value="{{ name }}" oninput="{{ setName }}" /></label>
               <label><span>Recipient email</span><input type="email" value="{{ email }}" oninput="{{ setEmail }}" /></label>
-              <label><span>Occasion</span>
-                <select value="{{ occasion }}" onchange="{{ setOccasion }}">
-                  <option value="memorial">Memorial</option>
-                  <option value="new_child">Birth</option>
-                  <option value="birthday">Birthday</option>
-                  <option value="service_award">Service award</option>
-                  <option value="retirement">Retirement</option>
-                  <option value="other">Other</option>
-                </select>
-              </label>
-              <sc-if value="{{ showCustomOccasion }}">
-                <label><span>Occasion label</span><input value="{{ customLabel }}" oninput="{{ setCustomLabel }}" /></label>
-              </sc-if>
               <sc-if value="{{ showYears }}">
                 <label><span>Years of service</span>
                   <select value="{{ years }}" onchange="{{ setYears }}">
@@ -222,7 +224,7 @@
               <thead>
                 <tr>
                   <th>Recipient</th>
-                  <th>Occasion</th>
+                  <sc-if value="{{ showYears }}"><th>Years</th></sc-if>
                   <th class="num">Trees</th>
                   <th class="num">Price</th>
                   <th></th>
@@ -232,7 +234,7 @@
                 <sc-for list="{{ people }}" as="row" hint-placeholder-count="3">
                   <tr class="{{ row.rowClass }}" onclick="{{ row.select }}">
                     <td><b>{{ row.name }}</b><small>{{ row.email }}</small></td>
-                    <td>{{ row.occasionText }}<small>{{ row.yearsText }}</small></td>
+                    <sc-if value="{{ showYears }}"><td>{{ row.yearsText }}</td></sc-if>
                     <td class="num"><input class="trees" type="number" min="1" max="500" value="{{ row.trees }}" oninput="{{ row.setTrees }}" onclick="{{ row.stop }}" /></td>
                     <td class="num">{{ row.price }}</td>
                     <td class="num"><button class="x" type="button" onclick="{{ row.remove }}">Remove</button></td>
@@ -270,7 +272,7 @@
           <sc-for list="{{ paidPeople }}" as="row" hint-placeholder-count="3">
             <article class="panel">
               <b>{{ row.name }}</b>
-              <span class="sub">{{ row.detail }} · {{ row.treesLabel }} · {{ row.price }}</span>
+              <span class="sub">{{ row.line }} · {{ row.price }}</span>
             </article>
           </sc-for>
         </div>
@@ -287,20 +289,25 @@
             <div class="row-actions" style="margin-top:0">
               <div>
                 <b>{{ order.date }}</b>
-                <span class="sub">{{ order.meta }} · {{ order.total }}</span>
+                <span class="sub">{{ order.meta }}</span>
               </div>
               <button class="ghost" type="button" onclick="{{ order.toggle }}">{{ order.toggleLabel }}</button>
             </div>
             <sc-if value="{{ order.open }}">
               <table>
                 <thead>
-                  <tr><th>Recipient</th><th>Occasion</th><th class="num">Trees</th><th class="num">Price</th></tr>
+                  <tr>
+                  <th>Recipient</th>
+                  <sc-if value="{{ order.showYears }}"><th>Years</th></sc-if>
+                  <th class="num">Trees</th>
+                  <th class="num">Price</th>
+                </tr>
                 </thead>
                 <tbody>
                   <sc-for list="{{ order.people }}" as="row" hint-placeholder-count="2">
                     <tr>
                       <td><b>{{ row.name }}</b><small>{{ row.email }}</small></td>
-                      <td>{{ row.detail }}</td>
+                      <sc-if value="{{ order.showYears }}"><td>{{ row.yearsText }}</td></sc-if>
                       <td class="num">{{ row.treesLabel }}</td>
                       <td class="num">{{ row.price }}</td>
                     </tr>
@@ -367,9 +374,9 @@ class Component extends DCLogic {
       paidPeople: [],
       paidCents: 0,
       people: [
-        { id: 1, name: "Jordan Lee", email: "jordan.lee@firstave.example", occasion: "service_award", customLabel: "", years: "5", customYears: "", trees: 1, note: "" },
-        { id: 2, name: "Priya Shah", email: "priya.shah@firstave.example", occasion: "service_award", customLabel: "", years: "10", customYears: "", trees: 5, note: "Ten years with First Avenue." },
-        { id: 3, name: "Sam Ortiz", email: "sam.ortiz@firstave.example", occasion: "retirement", customLabel: "", years: "15", customYears: "", trees: 10, note: "" },
+        { id: 1, name: "Jordan Lee", email: "jordan.lee@firstave.example", years: "5", customYears: "", trees: 1, note: "" },
+        { id: 2, name: "Priya Shah", email: "priya.shah@firstave.example", years: "10", customYears: "", trees: 5, note: "Ten years with First Avenue." },
+        { id: 3, name: "Sam Ortiz", email: "sam.ortiz@firstave.example", years: "15", customYears: "", trees: 10, note: "" },
       ],
       orders: [],
     };
@@ -390,34 +397,31 @@ class Component extends DCLogic {
   backToCart() { this.setState({ screen: "cart" }); }
   stop(e) { e.stopPropagation(); }
 
-  yearsLabel(person) {
-    if (!needsYears(person.occasion)) return "";
+  yearsLabel(person, occasion) {
+    if (!needsYears(occasion)) return "";
     if (person.years === "other") return (person.customYears || "Other") + " years";
     return person.years + " years";
   }
 
-  occasionLabel(person) {
-    if (person.occasion === "other") return person.customLabel.trim() || "Other";
-    return OCCASIONS[person.occasion] || person.occasion;
+  occasionText(occasion, customLabel) {
+    if (occasion === "other") return (customLabel || "").trim() || "Other";
+    return OCCASIONS[occasion] || occasion;
   }
 
-  detail(person) {
-    const years = this.yearsLabel(person);
-    const occasion = this.occasionLabel(person);
-    return years ? occasion + " · " + years : occasion;
-  }
-
-  viewPerson(person) {
+  viewPerson(person, occasion, customLabel) {
     const selected = this.state.selectedId;
+    const yearsText = this.yearsLabel(person, occasion);
+    const treesLabel = person.trees === 1 ? "1 tree" : person.trees + " trees";
+    const occasionText = this.occasionText(occasion, customLabel);
     return {
       name: person.name,
       email: person.email,
       trees: String(person.trees),
-      treesLabel: person.trees === 1 ? "1 tree" : person.trees + " trees",
+      treesLabel,
       price: money(lineCents(person.trees)),
-      occasionText: this.occasionLabel(person),
-      yearsText: this.yearsLabel(person),
-      detail: this.detail(person),
+      yearsText,
+      line: yearsText ? yearsText + " · " + treesLabel : treesLabel,
+      detail: yearsText ? occasionText + " · " + yearsText : occasionText,
       rowClass: person.id === selected ? "is-selected" : "",
       select: () => this.setState({ selectedId: person.id }),
       stop: (e) => e.stopPropagation(),
@@ -449,14 +453,11 @@ class Component extends DCLogic {
     const name = this.state.name.trim();
     const email = this.state.email.trim();
     if (!name || !email.includes("@")) return;
-    if (this.state.occasion === "other" && !this.state.customLabel.trim()) return;
     if (needsYears(this.state.occasion) && this.state.years === "other" && !this.state.customYears.trim()) return;
     const person = {
       id: ++this.seq,
       name,
       email,
-      occasion: this.state.occasion,
-      customLabel: this.state.customLabel,
       years: this.state.years,
       customYears: this.state.customYears,
       trees: clampTrees(this.state.trees),
@@ -490,11 +491,14 @@ class Component extends DCLogic {
   }
 
   confirmPay() {
-    const people = this.state.people.map((person) => this.viewPerson(person));
+    if (this.state.occasion === "other" && !this.state.customLabel.trim()) return;
+    const people = this.state.people.map((person) => this.viewPerson(person, this.state.occasion, this.state.customLabel));
     const cents = this.payCents();
     const order = {
       id: ++this.seq,
       date: new Date().toLocaleDateString("en-CA", { month: "short", day: "numeric", year: "numeric" }),
+      occasion: this.state.occasion,
+      customLabel: this.state.customLabel,
       people: this.state.people.map((person) => ({ ...person })),
       cents,
     };
@@ -519,7 +523,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const s = this.state;
-    const people = s.people.map((person) => this.viewPerson(person));
+    const people = s.people.map((person) => this.viewPerson(person, s.occasion, s.customLabel));
     const selected = s.people.find((person) => person.id === s.selectedId) || null;
     const trees = clampTrees(s.trees);
     const subtotal = this.subtotalCents();
@@ -528,14 +532,16 @@ class Component extends DCLogic {
     const orders = s.orders.map((order) => {
       const open = s.openOrder === order.id;
       const count = order.people.reduce((sum, person) => sum + person.trees, 0);
+      const occasionText = this.occasionText(order.occasion, order.customLabel);
       return {
         date: order.date,
         total: money(order.cents),
-        meta: order.people.length + (order.people.length === 1 ? " person" : " people") + " · " + count + (count === 1 ? " tree" : " trees"),
+        showYears: needsYears(order.occasion),
+        meta: occasionText + " · " + order.people.length + (order.people.length === 1 ? " person" : " people") + " · " + count + (count === 1 ? " tree" : " trees") + " · " + money(order.cents),
         open,
         toggleLabel: open ? "Hide" : "Show",
         toggle: () => this.setState({ openOrder: open ? null : order.id }),
-        people: order.people.map((person) => this.viewPerson(person)),
+        people: order.people.map((person) => this.viewPerson(person, order.occasion, order.customLabel)),
       };
     });
     return {
@@ -558,8 +564,8 @@ class Component extends DCLogic {
       showCustomYears: needsYears(s.occasion) && s.years === "other",
       showCustomOccasion: s.occasion === "other",
       draftHint: money(lineCents(trees)) + " · first tree $39.99, then $9.99",
-      cannotAdd: !s.name.trim() || !s.email.includes("@") || (s.occasion === "other" && !s.customLabel.trim()) || (needsYears(s.occasion) && s.years === "other" && !s.customYears.trim()),
-      cannotPay: s.people.length === 0,
+      cannotAdd: !s.name.trim() || !s.email.includes("@") || (needsYears(s.occasion) && s.years === "other" && !s.customYears.trim()),
+      cannotPay: s.people.length === 0 || (s.occasion === "other" && !s.customLabel.trim()),
       cartEmpty: s.people.length === 0,
       hasPeople: s.people.length > 0,
       people,
@@ -570,7 +576,7 @@ class Component extends DCLogic {
       preview: selected ? {
         name: selected.name,
         to: "To " + selected.name,
-        detail: this.detail(selected),
+        detail: (this.yearsLabel(selected, s.occasion) ? this.occasionText(s.occasion, s.customLabel) + " · " + this.yearsLabel(selected, s.occasion) : this.occasionText(s.occasion, s.customLabel)),
         note: selected.note || "The digital card note will appear here.",
         treesLabel: selected.trees === 1 ? "1 tree" : selected.trees + " trees",
       } : { name: "", to: "", detail: "", note: "", treesLabel: "" },
