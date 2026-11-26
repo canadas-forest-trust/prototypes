@@ -52,7 +52,11 @@
   h1 { margin: 0; font-size: 3rem; line-height: 1; letter-spacing: -0.04em; font-weight: 700; }
   .intro { max-width: 42rem; color: var(--ink-soft); margin: 0.8rem 0 0; }
   .rule { height: 3px; background: var(--ink); border: 0; margin: 1.25rem 0 1.5rem; }
-  .tabs { display: flex; gap: 0.4rem; margin-bottom: 1.25rem; }
+  .tabs { display: flex; justify-content: flex-end; margin-bottom: 1.25rem; }
+  .tabs .tab { border-radius: 0; margin-left: -1px; }
+  .tabs .tab:first-child { margin-left: 0; border-radius: 2px 0 0 2px; }
+  .tabs .tab:last-child { border-radius: 0 2px 2px 0; }
+  .tabs .tab.on { position: relative; z-index: 1; }
   .tab, .pay, .ghost, .add {
     border-radius: 2px; padding: 0.45rem 0.8rem; border: 1px solid var(--ink); background: transparent;
   }
